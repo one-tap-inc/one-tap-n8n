@@ -1,48 +1,139 @@
-![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
+# n8n-nodes-onetap
 
-# n8n-nodes-starter
+![OneTap Logo](https://onetapcheckin.com/assets/logo.png)
 
-This repo contains example nodes to help you get started building your own custom integrations for [n8n](https://n8n.io). It includes the node linter and other dependencies.
+An n8n community node for integrating with [OneTap](https://onetapcheckin.com) - a powerful visitor management and check-in system.
 
-To make your custom node available to the community, you must create it as an npm package, and [submit it to the npm registry](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+## Features
 
-If you would like your node to be available on n8n cloud you can also [submit your node for verification](https://docs.n8n.io/integrations/creating-nodes/deploy/submit-community-nodes/).
+- **Profile Management**: Get and update visitor profiles
+- **Advanced Search**: Search profiles by name, email, or phone number
+- **Flexible Filtering**: Filter by favorite status and custom criteria
+- **Pagination Support**: Handle large datasets efficiently
+- **Custom Fields**: Support for dynamic custom field values
+- **Check-in Codes**: Manage unique alphanumeric check-in codes
 
-## Prerequisites
+## Installation
 
-You need the following installed on your development machine:
+To install this community node in n8n:
 
-* [git](https://git-scm.com/downloads)
-* Node.js and npm. Minimum version Node 20. You can find instructions on how to install both using nvm (Node Version Manager) for Linux, Mac, and WSL [here](https://github.com/nvm-sh/nvm). For Windows users, refer to Microsoft's guide to [Install NodeJS on Windows](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
-* Install n8n with:
-  ```
-  npm install n8n -g
-  ```
-* Recommended: follow n8n's guide to [set up your development environment](https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/).
+1. Go to **Settings** → **Community Nodes**
+2. Click **Install a community node**
+3. Enter `n8n-nodes-onetap`
+4. Click **Install**
 
-## Using this starter
+Alternatively, you can install it via npm in your n8n installation:
 
-These are the basic steps for working with the starter. For detailed guidance on creating and publishing nodes, refer to the [documentation](https://docs.n8n.io/integrations/creating-nodes/).
+```bash
+npm install n8n-nodes-onetap
+```
 
-1. [Generate a new repository](https://github.com/n8n-io/n8n-nodes-starter/generate) from this template repository.
-2. Clone your new repo:
-   ```
-   git clone https://github.com/<your organization>/<your-repo-name>.git
-   ```
-3. Run `npm i` to install dependencies.
-4. Open the project in your editor.
-5. Browse the examples in `/nodes` and `/credentials`. Modify the examples, or replace them with your own nodes.
-6. Update the `package.json` to match your details.
-7. Run `npm run lint` to check for errors or `npm run lintfix` to automatically fix errors when possible.
-8. Test your node locally. Refer to [Run your node locally](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/) for guidance.
-9. Replace this README with documentation for your node. Use the [README_TEMPLATE](README_TEMPLATE.md) to get started.
-10. Update the LICENSE file to use your details.
-11. [Publish](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry) your package to npm.
+## Configuration
 
-## More information
+### Credentials
 
-Refer to our [documentation on creating nodes](https://docs.n8n.io/integrations/creating-nodes/) for detailed information on building your own nodes.
+To use this node, you need to configure your OneTap API credentials:
+
+1. In n8n, go to **Credentials** → **Add Credential**
+2. Search for **OneTap API**
+3. Enter your **API Key** (obtainable from your OneTap dashboard)
+4. Test the connection
+
+### API Documentation
+
+For detailed API information, visit: [https://apidocs.onetapcheckin.io](https://apidocs.onetapcheckin.io)
+
+## Operations
+
+### Profile Resource
+
+#### Get All Profiles
+- **Description**: Retrieve all visitor profiles with filtering and search capabilities
+- **Parameters**:
+  - **Return All**: Whether to return all results or use pagination
+  - **Page**: Page number for pagination (when Return All is false)
+  - **Page Size**: Number of profiles per page (1-100)
+  - **Search**: Search by name, email, or phone number
+  - **Sort By**: Sort by name, email, or creation date
+  - **Sort Order**: Ascending or descending order
+  - **Favorite**: Filter by favorite status
+
+#### Update Profile
+- **Description**: Update an existing visitor profile
+- **Parameters**:
+  - **Profile ID**: The unique identifier of the profile to update
+  - **Update Fields**:
+    - Name
+    - Email
+    - Phone
+    - Address
+    - Notes
+    - Favorite status
+    - Check-in Code
+    - Custom Fields (with support for various data types)
+
+## Usage Examples
+
+### Search for Profiles
+```json
+{
+  "resource": "profile",
+  "operation": "getAll",
+  "additionalFields": {
+    "search": "john@example.com",
+    "sortBy": "name",
+    "sortOrder": "asc"
+  }
+}
+```
+
+### Update Profile Information
+```json
+{
+  "resource": "profile",
+  "operation": "update",
+  "profileId": "123456",
+  "updateFields": {
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "phone": "1234567890",
+    "favorite": true,
+    "customFields": {
+      "customField": [
+        {
+          "name": "employeeId",
+          "type": "string",
+          "value": "EMP001"
+        }
+      ]
+    }
+  }
+}
+```
+
+## Authentication
+
+This node uses API Key authentication. The API key is sent via the `X-API-Key` header to the OneTap API.
+
+## API Endpoint
+
+The node connects to: `https://api-beta.onetapcheckin.com`
+
+## Version
+
+Current version: **0.1.0**
 
 ## License
 
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
+MIT
+
+## Support
+
+For support and questions:
+- **OneTap Support**: hello@onetapcheckin.com
+- **Node Issues**: Please report issues on the GitHub repository
+- **n8n Community**: Join the [n8n community](https://community.n8n.io/) for general n8n support
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit pull requests or report issues.
