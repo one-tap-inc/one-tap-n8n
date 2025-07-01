@@ -45,6 +45,10 @@ export class OneTap implements INodeType {
 						value: 'profile',
 					},
 					{
+						name: 'Passports',
+						value: 'passports',
+					},
+					{
 						name: 'Punch Passes',
 						value: 'punchPasses',
 					},
@@ -655,6 +659,247 @@ export class OneTap implements INodeType {
 				},
 			},
 
+			// PASSPORTS OPERATIONS
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['passports'],
+					},
+				},
+				options: [
+					{
+						name: 'Get All',
+						value: 'getAll',
+						description: 'Fetch all passes for a profile or participant',
+						action: 'Get all passes for a profile or participant',
+					},
+					{
+						name: 'Get by Participant',
+						value: 'getByParticipant',
+						description: 'Fetch passport for a specific participant (DEPRECATED)',
+						action: 'Get passport for a specific participant',
+					},
+					{
+						name: 'Get by Profile',
+						value: 'getByProfile',
+						description: 'Fetch passes for a specific profile (DEPRECATED)',
+						action: 'Get passes for a specific profile',
+					},
+					{
+						name: 'Get Groups',
+						value: 'getGroups',
+						description: 'Fetch all group passes',
+						action: 'Get all group passes',
+					},
+					{
+						name: 'Delete',
+						value: 'delete',
+						description: 'Delete a group pass',
+						action: 'Delete a group pass',
+					},
+					{
+						name: 'Send',
+						value: 'send',
+						description: 'Send a passport via SMS or email',
+						action: 'Send a passport via SMS or email',
+					},
+				],
+				default: 'getAll',
+			},
+			// GET ALL PASSPORTS FIELDS
+			{
+				displayName: 'Profile ID',
+				name: 'profileId',
+				type: 'string',
+				default: '',
+				description: 'Profile ID to fetch passes for',
+				displayOptions: {
+					show: {
+						resource: ['passports'],
+						operation: ['getAll'],
+					},
+				},
+			},
+			{
+				displayName: 'Participant ID',
+				name: 'participantId',
+				type: 'string',
+				default: '',
+				description: 'Participant ID to fetch passes for',
+				displayOptions: {
+					show: {
+						resource: ['passports'],
+						operation: ['getAll'],
+					},
+				},
+			},
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: {
+					show: {
+						resource: ['passports'],
+						operation: ['getAll'],
+					},
+				},
+				options: [
+					{
+						displayName: 'Passport Type',
+						name: 'passportType',
+						type: 'string',
+						default: '',
+						description: 'Filter by passport type',
+					},
+					{
+						displayName: 'Page',
+						name: 'page',
+						type: 'number',
+						default: 0,
+						description: 'Page number for pagination',
+					},
+					{
+						displayName: 'Page Size',
+						name: 'pageSize',
+						type: 'number',
+						default: 50,
+						description: 'Number of results per page',
+					},
+				],
+			},
+			// GET BY PARTICIPANT FIELDS
+			{
+				displayName: 'Participant ID',
+				name: 'participantId',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'The participant ID',
+				displayOptions: {
+					show: {
+						resource: ['passports'],
+						operation: ['getByParticipant'],
+					},
+				},
+			},
+			// GET BY PROFILE FIELDS
+			{
+				displayName: 'Profile ID',
+				name: 'profileId',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'The profile ID',
+				displayOptions: {
+					show: {
+						resource: ['passports'],
+						operation: ['getByProfile'],
+					},
+				},
+			},
+			{
+				displayName: 'Custom Barcode',
+				name: 'customBarcode',
+				type: 'boolean',
+				default: false,
+				description: 'Include custom barcode',
+				displayOptions: {
+					show: {
+						resource: ['passports'],
+						operation: ['getByProfile'],
+					},
+				},
+			},
+			// GET GROUPS FIELDS
+			{
+				displayName: 'Limit',
+				name: 'limit',
+				type: 'number',
+				default: 500,
+				description: 'Maximum number of results',
+				displayOptions: {
+					show: {
+						resource: ['passports'],
+						operation: ['getGroups'],
+					},
+				},
+			},
+			// DELETE PASSPORT FIELDS
+			{
+				displayName: 'Passport ID',
+				name: 'passportId',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'Passport ID to delete',
+				displayOptions: {
+					show: {
+						resource: ['passports'],
+						operation: ['delete'],
+					},
+				},
+			},
+			// SEND PASSPORT FIELDS
+			{
+				displayName: 'Passport ID',
+				name: 'passportId',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'Passport ID to send',
+				displayOptions: {
+					show: {
+						resource: ['passports'],
+						operation: ['send'],
+					},
+				},
+			},
+			{
+				displayName: 'Channel',
+				name: 'channel',
+				type: 'options',
+				required: true,
+				default: 'sms',
+				description: 'Delivery channel',
+				options: [
+					{
+						name: 'SMS',
+						value: 'sms',
+					},
+					{
+						name: 'Email',
+						value: 'email',
+					},
+				],
+				displayOptions: {
+					show: {
+						resource: ['passports'],
+						operation: ['send'],
+					},
+				},
+			},
+			{
+				displayName: 'Destination',
+				name: 'destination',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'Phone number or email address',
+				placeholder: 'john@example.com or +1234567890',
+				displayOptions: {
+					show: {
+						resource: ['passports'],
+						operation: ['send'],
+					},
+				},
+			},
+
 			{
 				displayName: 'Operation',
 				name: 'operation',
@@ -667,6 +912,12 @@ export class OneTap implements INodeType {
 				},
 				options: [
 					{
+						name: 'Create',
+						value: 'create',
+						description: 'Create a new punch passport',
+						action: 'Create a new punch passport',
+					},
+					{
 						name: 'Get All',
 						value: 'getAll',
 						description: 'Get all punch passes for a profile',
@@ -678,22 +929,89 @@ export class OneTap implements INodeType {
 						description: 'Get a single punch pass with check-ins',
 						action: 'Get a single punch pass with check-ins',
 					},
+					{
+						name: 'Update',
+						value: 'update',
+						description: 'Update a punch passport',
+						action: 'Update a punch passport',
+					},
+					{
+						name: 'Redeem',
+						value: 'redeem',
+						description: 'Redeem a punch passport by associating a check-in',
+						action: 'Redeem a punch passport by associating a check-in',
+					},
 				],
 				default: 'getAll',
 			},
+			// CREATE PUNCH PASS FIELDS
 			{
 				displayName: 'Profile ID',
 				name: 'profileId',
 				type: 'string',
 				required: true,
 				default: '',
-				description: 'The profile ID to fetch punch passes for',
+				description: 'Profile ID to create punch pass for',
 				displayOptions: {
 					show: {
 						resource: ['punchPasses'],
-						operation: ['getAll'],
+						operation: ['create', 'getAll'],
 					},
 				},
+			},
+			{
+				displayName: 'Starts At',
+				name: 'startsAt',
+				type: 'dateTime',
+				required: true,
+				default: '',
+				description: 'Start date and time',
+				displayOptions: {
+					show: {
+						resource: ['punchPasses'],
+						operation: ['create'],
+					},
+				},
+			},
+			{
+				displayName: 'Create Fields',
+				name: 'createFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: {
+					show: {
+						resource: ['punchPasses'],
+						operation: ['create'],
+					},
+				},
+				options: [
+					{
+						displayName: 'Name',
+						name: 'name',
+						type: 'string',
+						default: '',
+						description: 'Name for the punch pass',
+						placeholder: 'Coffee Loyalty Card',
+					},
+					{
+						displayName: 'Expires At',
+						name: 'expiresAt',
+						type: 'dateTime',
+						default: '',
+						description: 'Expiration date and time',
+					},
+					{
+						displayName: 'Check Ins Limit',
+						name: 'checkInsLimit',
+						type: 'number',
+						default: 10,
+						description: 'Maximum number of check-ins allowed (positive integer)',
+						typeOptions: {
+							minValue: 1,
+						},
+					},
+				],
 			},
 			{
 				displayName: 'Passport ID',
@@ -701,11 +1019,67 @@ export class OneTap implements INodeType {
 				type: 'string',
 				required: true,
 				default: '',
-				description: 'The punch pass ID to retrieve',
+				description: 'The punch pass ID',
 				displayOptions: {
 					show: {
 						resource: ['punchPasses'],
-						operation: ['getSingle'],
+						operation: ['getSingle', 'update', 'redeem'],
+					},
+				},
+			},
+			// UPDATE PUNCH PASS FIELDS
+			{
+				displayName: 'Update Fields',
+				name: 'updateFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: {
+					show: {
+						resource: ['punchPasses'],
+						operation: ['update'],
+					},
+				},
+				options: [
+					{
+						displayName: 'Status',
+						name: 'status',
+						type: 'boolean',
+						default: true,
+						description: 'Active status of the passport',
+					},
+					{
+						displayName: 'Check Ins Limit',
+						name: 'checkInsLimit',
+						type: 'number',
+						default: 10,
+						description: 'New check-ins limit',
+						typeOptions: {
+							minValue: 1,
+						},
+					},
+					{
+						displayName: 'Check In IDs',
+						name: 'checkInIds',
+						type: 'string',
+						default: '',
+						description: 'Comma-separated check-in IDs to associate',
+						placeholder: 'checkin123,checkin456',
+					},
+				],
+			},
+			// REDEEM PUNCH PASS FIELDS
+			{
+				displayName: 'Check In ID',
+				name: 'checkInId',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'Check-in ID to associate with the passport',
+				displayOptions: {
+					show: {
+						resource: ['punchPasses'],
+						operation: ['redeem'],
 					},
 				},
 			},
@@ -1603,12 +1977,6 @@ export class OneTap implements INodeType {
 						action: 'Delete multiple lists',
 					},
 					{
-						name: 'Get List Participants',
-						value: 'getListParticipants',
-						description: 'Get participants for a list',
-						action: 'Get participants for a list',
-					},
-					{
 						name: 'Get List Survey Data',
 						value: 'getListSurveyData',
 						description: 'Get survey data for a list',
@@ -2092,7 +2460,7 @@ export class OneTap implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['lists'],
-						operation: ['getSingle', 'update', 'deleteSingle', 'getListParticipants', 'getListSurveyData'],
+						operation: ['getSingle', 'update', 'deleteSingle', 'getListSurveyData'],
 					},
 				},
 			},
@@ -2308,68 +2676,7 @@ export class OneTap implements INodeType {
 					},
 				},
 			},
-			// GET LIST PARTICIPANTS FIELDS
-			{
-				displayName: 'Additional Fields',
-				name: 'additionalFields',
-				type: 'collection',
-				placeholder: 'Add Field',
-				default: {},
-				displayOptions: {
-					show: {
-						resource: ['lists'],
-						operation: ['getListParticipants'],
-					},
-				},
-				options: [
-					{
-						displayName: 'Search Query',
-						name: 'searchQuery',
-						type: 'string',
-						default: '',
-						description: 'Search participants by profile name',
-					},
-					{
-						displayName: 'Profile ID',
-						name: 'profileId',
-						type: 'string',
-						default: '',
-						description: 'Filter by specific profile ID',
-					},
-					{
-						displayName: 'Sort Order',
-						name: 'sortOrder',
-						type: 'options',
-						default: 'ascending',
-						description: 'Sort direction',
-						options: [
-							{ name: 'Ascending', value: 'ascending' },
-							{ name: 'Descending', value: 'descending' },
-						],
-					},
-					{
-						displayName: 'Sort Column',
-						name: 'sortColumn',
-						type: 'string',
-						default: 'lastCheckInDate',
-						description: 'Column to sort by',
-					},
-					{
-						displayName: 'Page Number',
-						name: 'pageNumber',
-						type: 'number',
-						default: 0,
-						description: 'Page number',
-					},
-					{
-						displayName: 'Page Size',
-						name: 'pageSize',
-						type: 'number',
-						default: 500,
-						description: 'Results per page',
-					},
-				],
-			},
+
 			// GET LIST SURVEY DATA FIELDS
 			{
 				displayName: 'Additional Fields',
@@ -2769,6 +3076,160 @@ export class OneTap implements INodeType {
 							pairedItem: i,
 						});
 					}
+				} else if (resource === 'passports') {
+					if (operation === 'getAll') {
+						const profileId = this.getNodeParameter('profileId', i) as string;
+						const participantId = this.getNodeParameter('participantId', i) as string;
+						const additionalFields = this.getNodeParameter('additionalFields', i) as {
+							passportType?: string;
+							page?: number;
+							pageSize?: number;
+						};
+
+						// Build query parameters, excluding empty values
+						const queryParams: Record<string, any> = {};
+
+						if (profileId) queryParams.profileId = profileId;
+						if (participantId) queryParams.participantId = participantId;
+						if (additionalFields.passportType) queryParams.passportType = additionalFields.passportType;
+						if (additionalFields.page !== undefined) queryParams.page = additionalFields.page;
+						if (additionalFields.pageSize !== undefined) queryParams.pageSize = additionalFields.pageSize;
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'GET',
+								url: 'https://api-beta.onetapcheckin.com/api/passports',
+								qs: queryParams,
+							},
+						);
+
+						if (response.data && Array.isArray(response.data)) {
+							for (const passport of response.data) {
+								returnData.push({
+									json: passport,
+									pairedItem: i,
+								});
+							}
+						} else {
+							returnData.push({
+								json: response,
+								pairedItem: i,
+							});
+						}
+
+					} else if (operation === 'getByParticipant') {
+						const participantId = this.getNodeParameter('participantId', i) as string;
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'GET',
+								url: `https://api-beta.onetapcheckin.com/api/passports/participants/${participantId}`,
+							},
+						);
+
+						returnData.push({
+							json: response,
+							pairedItem: i,
+						});
+
+					} else if (operation === 'getByProfile') {
+						const profileId = this.getNodeParameter('profileId', i) as string;
+						const customBarcode = this.getNodeParameter('customBarcode', i) as boolean;
+
+						const queryParams: Record<string, any> = {};
+						if (customBarcode) queryParams.customBarcode = '1';
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'GET',
+								url: `https://api-beta.onetapcheckin.com/api/passports/profiles/${profileId}`,
+								qs: queryParams,
+							},
+						);
+
+						returnData.push({
+							json: response,
+							pairedItem: i,
+						});
+
+					} else if (operation === 'getGroups') {
+						const limit = this.getNodeParameter('limit', i) as number;
+
+						const queryParams: Record<string, any> = {};
+						if (limit) queryParams.limit = limit;
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'GET',
+								url: 'https://api-beta.onetapcheckin.com/api/passports/groups',
+								qs: queryParams,
+							},
+						);
+
+						if (response.data && Array.isArray(response.data)) {
+							for (const passport of response.data) {
+								returnData.push({
+									json: passport,
+									pairedItem: i,
+								});
+							}
+						} else {
+							returnData.push({
+								json: response,
+								pairedItem: i,
+							});
+						}
+
+					} else if (operation === 'delete') {
+						const passportId = this.getNodeParameter('passportId', i) as string;
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'DELETE',
+								url: `https://api-beta.onetapcheckin.com/api/passports/${passportId}`,
+							},
+						);
+
+						returnData.push({
+							json: response,
+							pairedItem: i,
+						});
+
+					} else if (operation === 'send') {
+						const passportId = this.getNodeParameter('passportId', i) as string;
+						const channel = this.getNodeParameter('channel', i) as string;
+						const destination = this.getNodeParameter('destination', i) as string;
+
+						const body = {
+							channel,
+							destination,
+						};
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'POST',
+								url: `https://api-beta.onetapcheckin.com/api/passports/${passportId}/send`,
+								body,
+							},
+						);
+
+						returnData.push({
+							json: response,
+							pairedItem: i,
+						});
+					}
 				} else if (resource === 'punchPasses') {
 					if (operation === 'getAll') {
 						const returnAll = this.getNodeParameter('returnAll', i) as boolean;
@@ -2981,6 +3442,98 @@ export class OneTap implements INodeType {
 								pairedItem: i,
 							});
 						}
+
+					} else if (operation === 'create') {
+						const profileId = this.getNodeParameter('profileId', i) as string;
+						const startsAt = this.getNodeParameter('startsAt', i) as string;
+						const createFields = this.getNodeParameter('createFields', i) as Record<string, any>;
+
+						// Build the request body
+						const body: Record<string, any> = {
+							profileId,
+							startsAt: Math.floor(new Date(startsAt).getTime() / 1000),
+						};
+
+						// Add optional fields if they have values
+						Object.entries(createFields).forEach(([key, value]) => {
+							if (value !== undefined && value !== '' && value !== null) {
+								if (key === 'expiresAt') {
+									body[key] = Math.floor(new Date(value as string).getTime() / 1000);
+								} else {
+									body[key] = value;
+								}
+							}
+						});
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'POST',
+								url: 'https://api-beta.onetapcheckin.com/api/passports/punch-passports',
+								body,
+							},
+						);
+
+						returnData.push({
+							json: response.data || response,
+							pairedItem: i,
+						});
+
+					} else if (operation === 'update') {
+						const passportId = this.getNodeParameter('passportId', i) as string;
+						const updateFields = this.getNodeParameter('updateFields', i) as Record<string, any>;
+
+						// Build the request body
+						const body: Record<string, any> = {};
+
+						Object.entries(updateFields).forEach(([key, value]) => {
+							if (value !== undefined && value !== '' && value !== null) {
+								if (key === 'checkInIds') {
+									body[key] = (value as string).split(',').map(id => id.trim());
+								} else {
+									body[key] = value;
+								}
+							}
+						});
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'PUT',
+								url: `https://api-beta.onetapcheckin.com/api/passports/punch-passports/${passportId}`,
+								body,
+							},
+						);
+
+						returnData.push({
+							json: response.data || response,
+							pairedItem: i,
+						});
+
+					} else if (operation === 'redeem') {
+						const passportId = this.getNodeParameter('passportId', i) as string;
+						const checkInId = this.getNodeParameter('checkInId', i) as string;
+
+						const body = {
+							checkInId,
+						};
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'POST',
+								url: `https://api-beta.onetapcheckin.com/api/passports/punch-passports/${passportId}/redeem`,
+								body,
+							},
+						);
+
+						returnData.push({
+							json: response.data || response,
+							pairedItem: i,
+						});
 					}
 				} else if (resource === 'participants') {
 					if (operation === 'create') {
@@ -3522,34 +4075,6 @@ export class OneTap implements INodeType {
 								method: 'DELETE',
 								url: 'https://api-beta.onetapcheckin.com/api/lists',
 								body,
-							},
-						);
-
-						returnData.push({
-							json: response,
-							pairedItem: i,
-						});
-					} else if (operation === 'getListParticipants') {
-						const listId = this.getNodeParameter('listId', i) as string;
-						const additionalFields = this.getNodeParameter('additionalFields', i) as Record<string, any>;
-
-						// Build query parameters
-						const queryParams: Record<string, any> = {};
-
-						// Add additional fields as query parameters
-						Object.entries(additionalFields).forEach(([key, value]) => {
-							if (value !== undefined && value !== '' && value !== null) {
-								queryParams[key] = value;
-							}
-						});
-
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'GET',
-								url: `https://api-beta.onetapcheckin.com/api/lists/${listId}/participants`,
-								qs: queryParams,
 							},
 						);
 

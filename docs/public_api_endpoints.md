@@ -6,14 +6,68 @@ Authentication: Required via OneTap credentials
 
 ## Summary
 
-The OneTap API provides comprehensive visitor and attendance management functionality across 4 main resources:
+The OneTap API provides comprehensive visitor and attendance management functionality across 5 main resources:
 
 - **Profiles**: Manage visitor profiles with custom fields support (9 operations)
-- **Punch Passes**: Track and retrieve punch pass data with advanced filtering (2 operations)
+- **Passports**: Standard passport management with sending and deletion capabilities (6 operations)  
+- **Punch Passes**: Create, track, and manage punch pass data with advanced filtering (5 operations)
 - **Participants**: Handle event participants, check-ins/check-outs, and attendance tracking (9 operations)
-- **Lists**: Create and manage event lists with scheduling and participant management (8 operations)
+- **Lists**: Create and manage event lists with scheduling and survey management (7 operations)
 
-Total endpoints: 28 operations across 4 resources with full CRUD capabilities and specialized check-in/check-out functionality.
+Total endpoints: 36 operations across 5 resources with full CRUD capabilities and specialized check-in/check-out functionality.
+
+## Node Implementation Status
+
+This n8n community node implements **all 36 operations** across the 5 resources, providing complete access to the OneTap API functionality including:
+
+✅ **Profile Management**: Complete CRUD operations with custom fields, avatar uploads, and search capabilities
+✅ **Passport Operations**: Full passport lifecycle management including sending via SMS/email  
+✅ **Punch Pass System**: Creation, tracking, redemption, and advanced filtering
+✅ **Participant Handling**: Registration, check-in/check-out workflows, and attendance tracking
+✅ **List Management**: Event list creation, management, and survey data retrieval
+
+## Current Node Operations
+
+The following table shows all operations currently implemented in the n8n OneTap community node:
+
+| Resource | Operation | n8n Action | Method | Endpoint |
+|----------|-----------|------------|--------|----------|
+| **Profile** | Get All | Get all profiles | GET | `/api/profiles` |
+| **Profile** | Get Single | Get a specific profile | GET | `/api/profiles/{profileId}` |
+| **Profile** | Create | Create a profile | POST | `/api/profiles` |
+| **Profile** | Update | Update a profile | PUT | `/api/profiles/{profileId}` |
+| **Profile** | Delete | Delete a profile | DELETE | `/api/profiles/{profileId}` |
+| **Profile** | Delete Multiple | Delete multiple profiles | DELETE | `/api/profiles` |
+| **Profile** | Update Avatar | Update profile avatar | PUT | `/api/profiles/{profileId}/avatar` |
+| **Profile** | Get Custom Fields | Get custom fields schema | GET | `/api/profiles/customFields` |
+| **Profile** | Find by Check-in Code | Find profile by check-in code | GET | `/api/profiles/checkInCode` |
+| **Passports** | Get All | Get all passes for a profile or participant | GET | `/api/passports` |
+| **Passports** | Get by Participant | Get passport for a specific participant | GET | `/api/passports/participants/{participantId}` |
+| **Passports** | Get by Profile | Get passes for a specific profile | GET | `/api/passports/profiles/{profileId}` |
+| **Passports** | Get Groups | Get all group passes | GET | `/api/passports/groups` |
+| **Passports** | Delete | Delete a group pass | DELETE | `/api/passports/{passportId}` |
+| **Passports** | Send | Send a passport via SMS or email | POST | `/api/passports/{passportId}/send` |
+| **Punch Passes** | Create | Create a new punch passport | POST | `/api/passports/punch-passports` |
+| **Punch Passes** | Get All | Get all punch passes for a profile | GET | `/api/passports/punch-passports` |
+| **Punch Passes** | Get Single | Get a single punch pass with check-ins | GET | `/api/passports/punch-passports/{passportId}` |
+| **Punch Passes** | Update | Update a punch passport | PUT | `/api/passports/punch-passports/{passportId}` |
+| **Punch Passes** | Redeem | Redeem a punch passport by associating a check-in | POST | `/api/passports/punch-passports/{passportId}/redeem` |
+| **Participants** | Create | Create participant(s) | POST | `/api/participants` |
+| **Participants** | Get Single | Get a single participant | GET | `/api/participants/{participantId}` |
+| **Participants** | Update | Update a participant | PUT | `/api/participants/{participantId}` |
+| **Participants** | Get All | Get all participants | GET | `/api/participants` |
+| **Participants** | Delete | Delete a participant | DELETE | `/api/participants/{participantId}` |
+| **Participants** | Check In | Check in a participant | POST | `/api/participants/{participantId}/checkin` |
+| **Participants** | Check Out | Check out a participant | POST | `/api/participants/{participantId}/checkout` |
+| **Participants** | Undo Check In | Undo check-in for a participant | POST | `/api/participants/{participantId}/undoCheckin` |
+| **Participants** | Undo Check Out | Undo check-out for a participant | POST | `/api/participants/{participantId}/undoCheckout` |
+| **Lists** | Create | Create a new list | POST | `/api/lists` |
+| **Lists** | Get All | Get all lists | GET | `/api/lists` |
+| **Lists** | Get Single | Get a single list | GET | `/api/lists/{listId}` |
+| **Lists** | Update | Update a list | PUT | `/api/lists/{listId}` |
+| **Lists** | Delete Single | Delete a single list | DELETE | `/api/lists/{listId}` |
+| **Lists** | Delete Multiple | Delete multiple lists | DELETE | `/api/lists` |
+| **Lists** | Get Survey Data | Get survey data for a list | GET | `/api/lists/{listId}/survey` |
 
 ## API Endpoints Overview
 
@@ -31,12 +85,26 @@ Total endpoints: 28 operations across 4 resources with full CRUD capabilities an
 | Get Custom Fields | GET | `/api/profiles/customFields` | None | Get custom fields schema |
 | Find by Check-in Code | GET | `/api/profiles/checkInCode` | `checkInCode` (query) | Find profile by check-in code |
 
+### Passports Endpoints
+
+| Operation | Method | Endpoint | Key Parameters | Description |
+|-----------|--------|----------|----------------|-------------|
+| Get All | GET | `/api/passports` | `profileId`, `participantId`, `passportType`, pagination | Fetch all passes for a profile or participant |
+| Get by Participant | GET | `/api/passports/participants/{participantId}` | `participantId` (path) | Fetch passport for a specific participant (DEPRECATED) |
+| Get by Profile | GET | `/api/passports/profiles/{profileId}` | `profileId` (path), `customBarcode` | Fetch passes for a specific profile (DEPRECATED) |
+| Get Groups | GET | `/api/passports/groups` | `limit` | Fetch all group passes |
+| Delete | DELETE | `/api/passports/{passportId}` | `passportId` (path) | Delete a group pass |
+| Send | POST | `/api/passports/{passportId}/send` | `passportId` (path), `channel`, `destination` | Send a passport via SMS or email |
+
 ### Punch Passes Endpoints
 
 | Operation | Method | Endpoint | Key Parameters | Description |
 |-----------|--------|----------|----------------|-------------|
+| Create | POST | `/api/passports/punch-passports` | `profileId`, `startsAt`, optional fields | Create a new punch passport |
 | Get All | GET | `/api/passports/punch-passports` | `profileId` (required), pagination, filtering | Get all punch passes for a profile |
 | Get Single | GET | `/api/passports/punch-passports/{passportId}` | `passportId` (path), filtering options | Get single punch pass with check-ins |
+| Update | PUT | `/api/passports/punch-passports/{passportId}` | `passportId` (path), update fields | Update a punch passport |
+| Redeem | POST | `/api/passports/punch-passports/{passportId}/redeem` | `passportId` (path), `checkInId` | Redeem a punch passport by associating a check-in |
 
 ### Participants Endpoints
 
@@ -62,7 +130,6 @@ Total endpoints: 28 operations across 4 resources with full CRUD capabilities an
 | Update | PUT | `/api/lists/{listId}` | `listId` (path), update fields in body | Update a list |
 | Delete Single | DELETE | `/api/lists/{listId}` | `listId` (path) | Delete a single list |
 | Delete Multiple | DELETE | `/api/lists` | `listIds` array or `deleteAll` boolean | Delete multiple lists or all lists |
-| Get Participants | GET | `/api/lists/{listId}/participants` | `listId` (path), search and pagination options | Get participants for a list |
 | Get Survey Data | GET | `/api/lists/{listId}/survey` | `listId` (path), optional `profileId` | Get survey data for a list |
 
 ## Parameter Reference
@@ -76,8 +143,12 @@ Total endpoints: 28 operations across 4 resources with full CRUD capabilities an
 | `sortField` / `sortBy` | string | Field to sort by | Most GET endpoints |
 | `sortOrder` / `sortDirection` | string | Sort direction (asc/desc, ascending/descending) | Most GET endpoints |
 | `search` / `searchQuery` / `searchText` | string | Text search filter | Most GET endpoints |
-| `profileId` | string | Profile identifier | Punch passes, participants, lists |
+| `profileId` | string | Profile identifier | Passports, punch passes, participants, lists |
+| `participantId` | string | Participant identifier | Passports, participants |
+| `passportId` | string | Passport identifier | Passports, punch passes |
 | `listId` | string | List identifier | Participants, lists |
+| `passportType` | string | Filter by passport type | Passports |
+| `customBarcode` | boolean | Include custom barcode | Passports (deprecated endpoints) |
 
 ### Common Body Parameters
 
@@ -89,6 +160,12 @@ Total endpoints: 28 operations across 4 resources with full CRUD capabilities an
 | `timeZone` | string | IANA timezone (e.g., "America/Chicago") | Lists, participants |
 | `source` | string | Source of the operation | Most POST/PUT endpoints |
 | `notes` | string | General notes | Profiles, participants, lists |
+| `startsAt` | number | Unix timestamp | Punch passes create |
+| `expiresAt` | number | Unix timestamp | Punch passes create |
+| `checkInsLimit` | number | Maximum check-ins allowed | Punch passes create/update |
+| `channel` | string | Delivery channel (sms, email) | Passports send |
+| `destination` | string | Phone number or email address | Passports send |
+| `checkInId` | string | Check-in ID for association | Punch passes redeem |
 
 ### Special Parameters
 
@@ -244,7 +321,106 @@ Total endpoints: 28 operations across 4 resources with full CRUD capabilities an
 
 **Response**: Profile object or null if not found
 
+## Passports Endpoints
+
+### Get All Passes
+- **Method**: GET
+- **Endpoint**: `/api/passports`
+- **Description**: Fetch all passes for a profile or participant
+
+**Query Parameters:**
+- `profileId` (string, optional): The profile ID to fetch passes for
+- `participantId` (string, optional): The participant ID to fetch passes for
+- `passportType` (string, optional): Filter by passport type
+- `page` (number): Page number (default: 0)
+- `pageSize` (number): Items per page (1-100, default: 50)
+
+**Response**: 
+```json
+{
+  "data": {
+    "passports": [/* array of passport objects */]
+  }
+}
+```
+
+### Get by Participant
+- **Method**: GET
+- **Endpoint**: `/api/passports/participants/{participantId}`
+- **Description**: Fetch passport for a specific participant (DEPRECATED)
+
+**Path Parameters:**
+- `participantId` (string, required): The participant ID
+
+### Get by Profile
+- **Method**: GET
+- **Endpoint**: `/api/passports/profiles/{profileId}`
+- **Description**: Fetch passes for a specific profile (DEPRECATED)
+
+**Path Parameters:**
+- `profileId` (string, required): The profile ID
+
+**Query Parameters:**
+- `customBarcode` (boolean, optional): Include custom barcode ("1" or true)
+
+### Get Groups
+- **Method**: GET
+- **Endpoint**: `/api/passports/groups`
+- **Description**: Fetch all group passes
+
+**Query Parameters:**
+- `limit` (number): Results per page (1-1000, default: 100)
+
+**Response**: 
+```json
+{
+  "data": {
+    "groups": [/* array of group objects */]
+  }
+}
+```
+
+### Delete Passport
+- **Method**: DELETE
+- **Endpoint**: `/api/passports/{passportId}`
+- **Description**: Delete a group pass
+
+**Path Parameters:**
+- `passportId` (string, required): The passport ID
+
+### Send Passport
+- **Method**: POST
+- **Endpoint**: `/api/passports/{passportId}/send`
+- **Description**: Send a passport via SMS or email
+
+**Path Parameters:**
+- `passportId` (string, required): The passport ID
+
+**Request Body:**
+```json
+{
+  "channel": "string (sms|email)",
+  "destination": "string (phone number or email address)"
+}
+```
+
 ## Punch Passes Endpoints
+
+### Create Punch Passport
+- **Method**: POST
+- **Endpoint**: `/api/passports/punch-passports`
+- **Description**: Create a new punch passport
+
+**Request Body:**
+```json
+{
+  "profileId": "string (required)",
+  "startsAt": "number (Unix timestamp, required)",
+  "name": "string (optional, name for the punch pass)",
+  "expiresAt": "number (Unix timestamp, optional)",
+  "checkInsLimit": "number (optional, maximum check-ins allowed, positive integer)"
+}
+```
 
 ### Get All Punch Passes
 - **Method**: GET
@@ -286,6 +462,38 @@ Total endpoints: 28 operations across 4 resources with full CRUD capabilities an
 - `passportId` (string, required): The punch pass ID to retrieve
 
 **Query Parameters:** (same filtering options as Get All)
+
+### Update Punch Passport
+- **Method**: PUT
+- **Endpoint**: `/api/passports/punch-passports/{passportId}`
+- **Description**: Update a punch passport
+
+**Path Parameters:**
+- `passportId` (string, required): The punch pass ID
+
+**Request Body:**
+```json
+{
+  "status": "boolean (active status of the passport)",
+  "checkInsLimit": "number (new check-ins limit)",
+  "checkInIds": ["string"] (array of check-in IDs to associate)
+}
+```
+
+### Redeem Punch Passport
+- **Method**: POST
+- **Endpoint**: `/api/passports/punch-passports/{passportId}/redeem`
+- **Description**: Redeem a punch passport by associating a check-in
+
+**Path Parameters:**
+- `passportId` (string, required): The punch pass ID
+
+**Request Body:**
+```json
+{
+  "checkInId": "string (required)"
+}
+```
 
 ## Participants Endpoints
 
@@ -546,22 +754,6 @@ Total endpoints: 28 operations across 4 resources with full CRUD capabilities an
   "deleteAll": "boolean (delete all lists for organization)"
 }
 ```
-
-### Get List Participants
-- **Method**: GET
-- **Endpoint**: `/api/lists/{listId}/participants`
-- **Description**: Get participants for a specific list
-
-**Path Parameters:**
-- `listId` (string, required): The list ID
-
-**Query Parameters:**
-- `searchQuery` (string): Search participants by profile name
-- `profileId` (string): Filter by specific profile ID
-- `sortOrder` (string): Sort direction (ascending, descending)
-- `sortColumn` (string): Column to sort by (default: lastCheckInDate)
-- `pageNumber` (number): Page number (default: 0)
-- `pageSize` (number): Results per page (default: 500)
 
 ### Get List Survey Data
 - **Method**: GET
