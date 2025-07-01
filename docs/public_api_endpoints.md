@@ -8,12 +8,12 @@ Authentication: Required via OneTap credentials
 
 The OneTap API provides comprehensive visitor and attendance management functionality across 4 main resources:
 
-- **Profiles**: Manage visitor profiles with custom fields support
-- **Punch Passes**: Track and retrieve punch pass data with advanced filtering
-- **Participants**: Handle event participants, check-ins/check-outs, and attendance tracking
-- **Lists**: Create and manage event lists with scheduling and participant management
+- **Profiles**: Manage visitor profiles with custom fields support (9 operations)
+- **Punch Passes**: Track and retrieve punch pass data with advanced filtering (2 operations)
+- **Participants**: Handle event participants, check-ins/check-outs, and attendance tracking (9 operations)
+- **Lists**: Create and manage event lists with scheduling and participant management (8 operations)
 
-Total endpoints: 20 operations across 4 resources with full CRUD capabilities and specialized check-in/check-out functionality.
+Total endpoints: 28 operations across 4 resources with full CRUD capabilities and specialized check-in/check-out functionality.
 
 ## API Endpoints Overview
 
@@ -22,7 +22,14 @@ Total endpoints: 20 operations across 4 resources with full CRUD capabilities an
 | Operation | Method | Endpoint | Key Parameters | Description |
 |-----------|--------|----------|----------------|-------------|
 | Get All | GET | `/api/profiles` | `page`, `pageSize`, `search`, `sortBy`, `favorite` | Fetch all profiles with filtering and pagination |
+| Get Single | GET | `/api/profiles/{profileId}` | `profileId` (path) | Get a specific profile by ID |
+| Create | POST | `/api/profiles` | Profile data in body | Create a new profile |
 | Update | PUT | `/api/profiles/{profileId}` | `profileId` (path), profile fields in body | Update profile with custom fields support |
+| Delete | DELETE | `/api/profiles/{profileId}` | `profileId` (path) | Delete a specific profile |
+| Delete Multiple | DELETE | `/api/profiles` | `profileIds` array in body | Delete multiple profiles |
+| Update Avatar | PUT | `/api/profiles/{profileId}/avatar` | `profileId` (path), avatar file in body | Update profile avatar image |
+| Get Custom Fields | GET | `/api/profiles/customFields` | None | Get custom fields schema |
+| Find by Check-in Code | GET | `/api/profiles/checkInCode` | `checkInCode` (query) | Find profile by check-in code |
 
 ### Punch Passes Endpoints
 
@@ -112,6 +119,51 @@ Total endpoints: 20 operations across 4 resources with full CRUD capabilities an
 
 **Response**: Array of profile objects
 
+### Get Single Profile
+- **Method**: GET
+- **Endpoint**: `/api/profiles/{profileId}`
+- **Description**: Get a specific profile by ID
+
+**Path Parameters:**
+- `profileId` (string, required): The ID of the profile to retrieve
+
+**Response**: Single profile object
+
+### Create Profile
+- **Method**: POST
+- **Endpoint**: `/api/profiles`
+- **Description**: Create a new profile
+
+**Request Body:**
+```json
+{
+  "name": "string (required)",
+  "email": "string (valid email format)",
+  "phone": "string (digits only)",
+  "address": "string",
+  "notes": "string",
+  "favorite": "boolean",
+  "checkInCode": "string (alphanumeric)",
+  "allowDuplicate": "boolean",
+  "duplicatePhoneAllowed": "boolean",
+  "enableSendConfirmationEmail": "boolean",
+  "timeZone": "string (IANA format)",
+  "source": "string",
+  "customFields": {
+    "fieldName": "value (string|number|boolean|array|date)"
+  }
+}
+```
+
+**Custom Field Types:**
+- `string`: Text value
+- `number`: Numeric value
+- `boolean`: True/false value
+- `array`: JSON array or comma-separated string
+- `date`: Unix timestamp (converted from ISO date string)
+
+**Response**: Created profile object
+
 ### Update Profile
 - **Method**: PUT
 - **Endpoint**: `/api/profiles/{profileId}`
@@ -136,14 +188,61 @@ Total endpoints: 20 operations across 4 resources with full CRUD capabilities an
 }
 ```
 
-**Custom Field Types:**
-- `string`: Text value
-- `number`: Numeric value
-- `boolean`: True/false value
-- `array`: JSON array or comma-separated string
-- `date`: Unix timestamp (converted from ISO date string)
+**Response**: Updated profile object
 
----
+### Delete Profile
+- **Method**: DELETE
+- **Endpoint**: `/api/profiles/{profileId}`
+- **Description**: Delete a specific profile
+
+**Path Parameters:**
+- `profileId` (string, required): The ID of the profile to delete
+
+**Response**: Deletion confirmation
+
+### Delete Multiple Profiles
+- **Method**: DELETE
+- **Endpoint**: `/api/profiles`
+- **Description**: Delete multiple profiles
+
+**Request Body:**
+```json
+{
+  "profileIds": ["string"] (array of profile IDs to delete)
+}
+```
+
+**Response**: Deletion confirmation with count
+
+### Update Profile Avatar
+- **Method**: PUT
+- **Endpoint**: `/api/profiles/{profileId}/avatar`
+- **Description**: Update profile avatar image
+
+**Path Parameters:**
+- `profileId` (string, required): The ID of the profile
+
+**Request Body:**
+- Multipart form data with avatar file
+
+**Response**: Updated profile object with avatar URL
+
+### Get Custom Fields Schema
+- **Method**: GET
+- **Endpoint**: `/api/profiles/customFields`
+- **Description**: Get the custom fields schema configuration
+
+**Response**: Custom fields schema object
+
+### Find Profile by Check-in Code
+- **Method**: GET
+- **Endpoint**: `/api/profiles/checkInCode`
+- **Description**: Find a profile using their check-in code
+
+**Query Parameters:**
+- `checkInCode` (string, required): The check-in code to search for
+
+**Response**: Profile object or null if not found
 
 ## Punch Passes Endpoints
 
@@ -187,8 +286,6 @@ Total endpoints: 20 operations across 4 resources with full CRUD capabilities an
 - `passportId` (string, required): The punch pass ID to retrieve
 
 **Query Parameters:** (same filtering options as Get All)
-
----
 
 ## Participants Endpoints
 
@@ -357,8 +454,6 @@ Total endpoints: 20 operations across 4 resources with full CRUD capabilities an
 **Path Parameters:**
 - `participantId` (string, required): The participant ID
 
----
-
 ## Lists Endpoints
 
 ### Create List
@@ -478,8 +573,6 @@ Total endpoints: 20 operations across 4 resources with full CRUD capabilities an
 
 **Query Parameters:**
 - `profileId` (string, optional): Template survey data for specific profile
-
----
 
 ## Common Data Types
 

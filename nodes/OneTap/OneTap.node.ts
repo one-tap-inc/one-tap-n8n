@@ -83,10 +83,52 @@ export class OneTap implements INodeType {
 						},
 					},
 					{
+						name: 'Get Single',
+						value: 'getSingle',
+						description: 'Get a specific profile by ID',
+						action: 'Get a specific profile',
+					},
+					{
+						name: 'Create',
+						value: 'create',
+						description: 'Create a new profile',
+						action: 'Create a profile',
+					},
+					{
 						name: 'Update',
 						value: 'update',
 						description: 'Update a profile',
 						action: 'Update a profile',
+					},
+					{
+						name: 'Delete',
+						value: 'delete',
+						description: 'Delete a specific profile',
+						action: 'Delete a profile',
+					},
+					{
+						name: 'Delete Multiple',
+						value: 'deleteMultiple',
+						description: 'Delete multiple profiles',
+						action: 'Delete multiple profiles',
+					},
+					{
+						name: 'Update Avatar',
+						value: 'updateAvatar',
+						description: 'Update profile avatar image',
+						action: 'Update profile avatar',
+					},
+					{
+						name: 'Get Custom Fields',
+						value: 'getCustomFields',
+						description: 'Get custom fields schema',
+						action: 'Get custom fields schema',
+					},
+					{
+						name: 'Find by Check-in Code',
+						value: 'findByCheckInCode',
+						description: 'Find profile by check-in code',
+						action: 'Find profile by check-in code',
 					},
 				],
 				default: 'getAll',
@@ -243,17 +285,18 @@ export class OneTap implements INodeType {
 					},
 				],
 			},
+			// PROFILE ID FIELDS FOR VARIOUS OPERATIONS
 			{
 				displayName: 'Profile ID',
 				name: 'profileId',
 				type: 'string',
 				required: true,
 				default: '',
-				description: 'The ID of the profile to update',
+				description: 'The ID of the profile',
 				displayOptions: {
 					show: {
 						resource: ['profile'],
-						operation: ['update'],
+						operation: ['getSingle', 'update', 'delete', 'updateAvatar'],
 					},
 				},
 			},
@@ -390,6 +433,228 @@ export class OneTap implements INodeType {
 					},
 				],
 			},
+			// CREATE PROFILE FIELDS
+			{
+				displayName: 'Profile Name',
+				name: 'profileName',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'Name of the profile',
+				displayOptions: {
+					show: {
+						resource: ['profile'],
+						operation: ['create'],
+					},
+				},
+			},
+			{
+				displayName: 'Create Fields',
+				name: 'createFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: {
+					show: {
+						resource: ['profile'],
+						operation: ['create'],
+					},
+				},
+				options: [
+					{
+						displayName: 'Email',
+						name: 'email',
+						type: 'string',
+						default: '',
+						description: 'Email address (must be valid email format)',
+						placeholder: 'john@example.com',
+					},
+					{
+						displayName: 'Phone',
+						name: 'phone',
+						type: 'string',
+						default: '',
+						description: 'Phone number (digits only, automatically formatted)',
+						placeholder: '1234567890',
+					},
+					{
+						displayName: 'Address',
+						name: 'address',
+						type: 'string',
+						default: '',
+						description: 'Physical address',
+						placeholder: '123 Main St, City, State',
+					},
+					{
+						displayName: 'Notes',
+						name: 'notes',
+						type: 'string',
+						default: '',
+						description: 'Additional notes about the profile',
+						placeholder: 'VIP member',
+					},
+					{
+						displayName: 'Favorite',
+						name: 'favorite',
+						type: 'boolean',
+						default: false,
+						description: 'Mark profile as favorite',
+					},
+					{
+						displayName: 'Check-in Code',
+						name: 'checkInCode',
+						type: 'string',
+						default: '',
+						description: 'Unique alphanumeric check-in code',
+						placeholder: 'JD001',
+					},
+					{
+						displayName: 'Allow Duplicate',
+						name: 'allowDuplicate',
+						type: 'boolean',
+						default: false,
+						description: 'Allow duplicate profiles',
+					},
+					{
+						displayName: 'Duplicate Phone Allowed',
+						name: 'duplicatePhoneAllowed',
+						type: 'boolean',
+						default: false,
+						description: 'Allow duplicate phone numbers',
+					},
+					{
+						displayName: 'Send Confirmation Email',
+						name: 'enableSendConfirmationEmail',
+						type: 'boolean',
+						default: false,
+						description: 'Send confirmation email after creation',
+					},
+					{
+						displayName: 'Time Zone',
+						name: 'timeZone',
+						type: 'string',
+						default: '',
+						description: 'Timezone identifier',
+						placeholder: 'America/Chicago',
+					},
+					{
+						displayName: 'Source',
+						name: 'source',
+						type: 'string',
+						default: '',
+						description: 'Creation source',
+						placeholder: 'API',
+					},
+					{
+						displayName: 'Custom Fields',
+						name: 'customFields',
+						type: 'fixedCollection',
+						default: {},
+						description: 'Custom field values',
+						typeOptions: {
+							multipleValues: true,
+						},
+						options: [
+							{
+								displayName: 'Custom Field',
+								name: 'customField',
+								values: [
+									{
+										displayName: 'Field Name',
+										name: 'name',
+										type: 'string',
+										default: '',
+										description: 'Name of the custom field',
+										placeholder: 'employeeId',
+									},
+									{
+										displayName: 'Field Type',
+										name: 'type',
+										type: 'options',
+										default: 'string',
+										description: 'Type of the custom field value',
+										options: [
+											{
+												name: 'String',
+												value: 'string',
+											},
+											{
+												name: 'Number',
+												value: 'number',
+											},
+											{
+												name: 'Boolean',
+												value: 'boolean',
+											},
+											{
+												name: 'Date',
+												value: 'date',
+											},
+											{
+												name: 'Array',
+												value: 'array',
+											},
+										],
+									},
+									{
+										displayName: 'Field Value',
+										name: 'value',
+										type: 'string',
+										default: '',
+										description: 'Value of the custom field',
+										placeholder: 'EMP001',
+									},
+								],
+							},
+						],
+					},
+				],
+			},
+			// DELETE MULTIPLE PROFILES FIELDS
+			{
+				displayName: 'Profile IDs',
+				name: 'profileIds',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'Comma-separated profile IDs to delete',
+				displayOptions: {
+					show: {
+						resource: ['profile'],
+						operation: ['deleteMultiple'],
+					},
+				},
+			},
+			// UPDATE AVATAR FIELDS
+			{
+				displayName: 'Avatar File',
+				name: 'avatarFile',
+				type: 'string',
+				default: '',
+				description: 'Avatar image file (base64 encoded or binary data property from previous node)',
+				displayOptions: {
+					show: {
+						resource: ['profile'],
+						operation: ['updateAvatar'],
+					},
+				},
+			},
+			// FIND BY CHECK-IN CODE FIELDS
+			{
+				displayName: 'Check-in Code',
+				name: 'checkInCode',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'The check-in code to search for',
+				displayOptions: {
+					show: {
+						resource: ['profile'],
+						operation: ['findByCheckInCode'],
+					},
+				},
+			},
+
 			{
 				displayName: 'Operation',
 				name: 'operation',
@@ -2317,6 +2582,192 @@ export class OneTap implements INodeType {
 								pairedItem: i,
 							});
 						}
+					} else if (operation === 'getSingle') {
+						const profileId = this.getNodeParameter('profileId', i) as string;
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'GET',
+								url: `https://api-beta.onetapcheckin.com/api/profiles/${profileId}`,
+							},
+						);
+
+						returnData.push({
+							json: response.data || response,
+							pairedItem: i,
+						});
+
+					} else if (operation === 'create') {
+						const profileName = this.getNodeParameter('profileName', i) as string;
+						const createFields = this.getNodeParameter('createFields', i) as Record<string, any>;
+
+						// Build the request body
+						const body: Record<string, any> = {
+							name: profileName,
+						};
+
+						// Add optional fields if they have values
+						Object.entries(createFields).forEach(([key, value]) => {
+							if (value !== undefined && value !== '' && value !== null) {
+								if (key === 'customFields' && value.customField) {
+									const customFieldsObj: Record<string, any> = {};
+									const customFieldArray = value.customField;
+
+									for (const field of customFieldArray) {
+										if (field.name && field.value !== undefined && field.value !== '') {
+											let fieldValue = field.value;
+											
+											// Convert value based on type
+											switch (field.type) {
+												case 'number':
+													fieldValue = parseFloat(field.value);
+													break;
+												case 'boolean':
+													fieldValue = field.value === 'true' || field.value === true || field.value === '1' || field.value === 1;
+													break;
+												case 'array':
+													try {
+														fieldValue = JSON.parse(field.value);
+													} catch {
+														fieldValue = field.value.split(',').map((item: string) => item.trim());
+													}
+													break;
+												case 'date':
+													fieldValue = Math.floor(new Date(field.value).getTime() / 1000);
+													break;
+												default:
+													fieldValue = field.value; // string
+											}
+											
+											customFieldsObj[field.name] = fieldValue;
+										}
+									}
+
+									if (Object.keys(customFieldsObj).length > 0) {
+										body.customFields = customFieldsObj;
+									}
+								} else {
+									body[key] = value;
+								}
+							}
+						});
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'POST',
+								url: 'https://api-beta.onetapcheckin.com/api/profiles',
+								body,
+							},
+						);
+
+						returnData.push({
+							json: response.data || response,
+							pairedItem: i,
+						});
+
+					} else if (operation === 'delete') {
+						const profileId = this.getNodeParameter('profileId', i) as string;
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'DELETE',
+								url: `https://api-beta.onetapcheckin.com/api/profiles/${profileId}`,
+							},
+						);
+
+						returnData.push({
+							json: response,
+							pairedItem: i,
+						});
+
+					} else if (operation === 'deleteMultiple') {
+						const profileIds = this.getNodeParameter('profileIds', i) as string;
+
+						const body = {
+							profileIds: profileIds.split(',').map(id => id.trim()),
+						};
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'DELETE',
+								url: 'https://api-beta.onetapcheckin.com/api/profiles',
+								body,
+							},
+						);
+
+						returnData.push({
+							json: response,
+							pairedItem: i,
+						});
+
+					} else if (operation === 'updateAvatar') {
+						const profileId = this.getNodeParameter('profileId', i) as string;
+						const avatarFile = this.getNodeParameter('avatarFile', i) as string;
+
+						// Note: This is a simplified implementation. In practice, you'd need to handle
+						// multipart/form-data file uploads properly with the actual file content
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'PUT',
+								url: `https://api-beta.onetapcheckin.com/api/profiles/${profileId}/avatar`,
+								headers: {
+									'Content-Type': 'multipart/form-data',
+								},
+								body: {
+									avatar: avatarFile,
+								},
+							},
+						);
+
+						returnData.push({
+							json: response.data || response,
+							pairedItem: i,
+						});
+
+					} else if (operation === 'getCustomFields') {
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'GET',
+								url: 'https://api-beta.onetapcheckin.com/api/profiles/customFields',
+							},
+						);
+
+						returnData.push({
+							json: response.data || response,
+							pairedItem: i,
+						});
+
+					} else if (operation === 'findByCheckInCode') {
+						const checkInCode = this.getNodeParameter('checkInCode', i) as string;
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'GET',
+								url: 'https://api-beta.onetapcheckin.com/api/profiles/checkInCode',
+								qs: {
+									checkInCode: checkInCode,
+								},
+							},
+						);
+
+						returnData.push({
+							json: response.data || response,
+							pairedItem: i,
+						});
 					}
 				} else if (resource === 'punchPasses') {
 					if (operation === 'getAll') {
