@@ -69,6 +69,12 @@ export class OneTap implements INodeType {
 							},
 						},
 					},
+					{
+						name: 'Update',
+						value: 'update',
+						description: 'Update a profile',
+						action: 'Update a profile',
+					},
 				],
 				default: 'getAll',
 			},
@@ -224,6 +230,153 @@ export class OneTap implements INodeType {
 					},
 				],
 			},
+			{
+				displayName: 'Profile ID',
+				name: 'profileId',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'The ID of the profile to update',
+				displayOptions: {
+					show: {
+						resource: ['profile'],
+						operation: ['update'],
+					},
+				},
+			},
+			{
+				displayName: 'Update Fields',
+				name: 'updateFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: {
+					show: {
+						resource: ['profile'],
+						operation: ['update'],
+					},
+				},
+				options: [
+					{
+						displayName: 'Name',
+						name: 'name',
+						type: 'string',
+						default: '',
+						description: 'Full name of the profile',
+						placeholder: 'John Doe',
+					},
+					{
+						displayName: 'Email',
+						name: 'email',
+						type: 'string',
+						default: '',
+						description: 'Email address (must be valid email format)',
+						placeholder: 'john@example.com',
+					},
+					{
+						displayName: 'Phone',
+						name: 'phone',
+						type: 'string',
+						default: '',
+						description: 'Phone number (digits only, automatically formatted)',
+						placeholder: '1234567890',
+					},
+					{
+						displayName: 'Address',
+						name: 'address',
+						type: 'string',
+						default: '',
+						description: 'Physical address',
+						placeholder: '123 Main St, City, State',
+					},
+					{
+						displayName: 'Notes',
+						name: 'notes',
+						type: 'string',
+						default: '',
+						description: 'Additional notes about the profile',
+						placeholder: 'VIP member',
+					},
+					{
+						displayName: 'Favorite',
+						name: 'favorite',
+						type: 'boolean',
+						default: false,
+						description: 'Mark profile as favorite',
+					},
+					{
+						displayName: 'Check-in Code',
+						name: 'checkInCode',
+						type: 'string',
+						default: '',
+						description: 'Unique alphanumeric check-in code',
+						placeholder: 'JD001',
+					},
+					{
+						displayName: 'Custom Fields',
+						name: 'customFields',
+						type: 'fixedCollection',
+						default: {},
+						description: 'Custom field values',
+						typeOptions: {
+							multipleValues: true,
+						},
+						options: [
+							{
+								displayName: 'Custom Field',
+								name: 'customField',
+								values: [
+									{
+										displayName: 'Field Name',
+										name: 'name',
+										type: 'string',
+										default: '',
+										description: 'Name of the custom field',
+										placeholder: 'employeeId',
+									},
+									{
+										displayName: 'Field Type',
+										name: 'type',
+										type: 'options',
+										default: 'string',
+										description: 'Type of the custom field value',
+										options: [
+											{
+												name: 'String',
+												value: 'string',
+											},
+											{
+												name: 'Number',
+												value: 'number',
+											},
+											{
+												name: 'Boolean',
+												value: 'boolean',
+											},
+											{
+												name: 'Date',
+												value: 'date',
+											},
+											{
+												name: 'Array',
+												value: 'array',
+											},
+										],
+									},
+									{
+										displayName: 'Field Value',
+										name: 'value',
+										type: 'string',
+										default: '',
+										description: 'Value of the custom field',
+										placeholder: 'EMP001',
+									},
+								],
+							},
+						],
+					},
+				],
+			},
 		],
 	};
 
@@ -335,6 +488,83 @@ export class OneTap implements INodeType {
 									pairedItem: i,
 								});
 							}
+						}
+					} else if (operation === 'update') {
+						const profileId = this.getNodeParameter('profileId', i) as string;
+						const updateFields = this.getNodeParameter('updateFields', i) as Record<string, any>;
+
+						// Build the request body, excluding empty values
+						const body: Record<string, any> = {};
+
+						// Add basic fields if they have values
+						if (updateFields.name) body.name = updateFields.name;
+						if (updateFields.email) body.email = updateFields.email;
+						if (updateFields.phone) body.phone = updateFields.phone;
+						if (updateFields.address) body.address = updateFields.address;
+						if (updateFields.notes) body.notes = updateFields.notes;
+						if (updateFields.checkInCode) body.checkInCode = updateFields.checkInCode;
+						if (updateFields.favorite !== undefined) body.favorite = updateFields.favorite;
+
+						// Process custom fields
+						if (updateFields.customFields && updateFields.customFields.customField) {
+							const customFieldsObj: Record<string, any> = {};
+							const customFieldArray = updateFields.customFields.customField;
+
+							for (const field of customFieldArray) {
+								if (field.name && field.value !== undefined && field.value !== '') {
+									let value = field.value;
+									
+									// Convert value based on type
+									switch (field.type) {
+										case 'number':
+											value = parseFloat(field.value);
+											break;
+										case 'boolean':
+											value = field.value === 'true' || field.value === true || field.value === '1' || field.value === 1;
+											break;
+										case 'array':
+											try {
+												value = JSON.parse(field.value);
+											} catch {
+												value = field.value.split(',').map((item: string) => item.trim());
+											}
+											break;
+										case 'date':
+											value = field.value; // Keep as string, API should handle ISO date format
+											break;
+										default:
+											value = field.value; // string
+									}
+									
+									customFieldsObj[field.name] = value;
+								}
+							}
+
+							if (Object.keys(customFieldsObj).length > 0) {
+								body.customFields = customFieldsObj;
+							}
+						}
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'PUT',
+								url: `https://api-beta.onetapcheckin.com/api/profiles/${profileId}`,
+								body,
+							},
+						);
+
+						if (response.data) {
+							returnData.push({
+								json: response.data,
+								pairedItem: i,
+							});
+						} else {
+							returnData.push({
+								json: response,
+								pairedItem: i,
+							});
 						}
 					}
 				}
