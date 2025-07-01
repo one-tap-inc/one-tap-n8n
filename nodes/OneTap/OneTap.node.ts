@@ -27,7 +27,6 @@ export class OneTap implements INodeType {
 		],
 		requestDefaults: {
 			baseURL: 'https://api-beta.onetapcheckin.com',
-			url: '',
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
@@ -63,35 +62,15 @@ export class OneTap implements INodeType {
 						value: 'getAll',
 						description: 'Fetch all profiles',
 						action: 'Get all profiles',
+						routing: {
+							request: {
+								method: 'GET',
+								url: '/api/profiles',
+							},
+						},
 					},
 				],
 				default: 'getAll',
-			},
-			{
-				displayName: 'Page',
-				name: 'page',
-				type: 'number',
-				default: 1,
-				description: 'Page number to retrieve',
-				displayOptions: {
-					show: {
-						resource: ['profile'],
-						operation: ['getAll'],
-					},
-				},
-			},
-			{
-				displayName: 'Page Size',
-				name: 'pageSize',
-				type: 'number',
-				default: 50,
-				description: 'Number of profiles to retrieve per page',
-				displayOptions: {
-					show: {
-						resource: ['profile'],
-						operation: ['getAll'],
-					},
-				},
 			},
 			{
 				displayName: 'Return All',
@@ -103,6 +82,53 @@ export class OneTap implements INodeType {
 					show: {
 						resource: ['profile'],
 						operation: ['getAll'],
+					},
+				},
+			},
+			{
+				displayName: 'Page',
+				name: 'page',
+				type: 'number',
+				default: 0,
+				description: 'Page number to retrieve',
+				typeOptions: {
+					minValue: 0,
+				},
+				displayOptions: {
+					show: {
+						resource: ['profile'],
+						operation: ['getAll'],
+						returnAll: [false],
+					},
+				},
+				routing: {
+					send: {
+						type: 'query',
+						property: 'page',
+					},
+				},
+			},
+			{
+				displayName: 'Page Size',
+				name: 'pageSize',
+				type: 'number',
+				default: 50,
+				description: 'Number of profiles to retrieve per page',
+				typeOptions: {
+					minValue: 1,
+					maxValue: 100,
+				},
+				displayOptions: {
+					show: {
+						resource: ['profile'],
+						operation: ['getAll'],
+						returnAll: [false],
+					},
+				},
+				routing: {
+					send: {
+						type: 'query',
+						property: 'pageSize',
 					},
 				},
 			},
@@ -212,22 +238,40 @@ export class OneTap implements INodeType {
 				if (resource === 'profile') {
 					if (operation === 'getAll') {
 						const returnAll = this.getNodeParameter('returnAll', i) as boolean;
-						const page = this.getNodeParameter('page', i) as number;
-						const pageSize = this.getNodeParameter('pageSize', i) as number;
 
 						if (returnAll) {
 							// Fetch all profiles by paginating through all pages
 							let allProfiles: any[] = [];
-							let currentPage = 1;
+							let currentPage = 0;
 							let hasMoreData = true;
+							const pageSize = 50; // Use reasonable default for pagination
 
 							while (hasMoreData) {
+								const additionalFields = this.getNodeParameter('additionalFields', i) as {
+									search?: string;
+									sortBy?: string;
+									sortOrder?: string;
+									favorite?: boolean;
+								};
+
+								// Build query parameters, excluding empty values
+								const queryParams: Record<string, any> = {
+									page: currentPage,
+									pageSize: pageSize,
+								};
+
+								if (additionalFields.search) queryParams.search = additionalFields.search;
+								if (additionalFields.sortBy) queryParams.sortBy = additionalFields.sortBy;
+								if (additionalFields.sortOrder) queryParams.sortOrder = additionalFields.sortOrder;
+								if (additionalFields.favorite !== undefined) queryParams.favorite = additionalFields.favorite;
+
 								const response = await this.helpers.httpRequestWithAuthentication.call(
 									this,
 									'onetap',
 									{
 										method: 'GET',
-										url: `/api/profiles?page=${currentPage}&pageSize=${pageSize}`,
+										url: 'https://api-beta.onetapcheckin.com/api/profiles',
+										qs: queryParams,
 									},
 								);
 
@@ -249,13 +293,32 @@ export class OneTap implements INodeType {
 								});
 							}
 						} else {
-							// Fetch single page
+							// Single page request
+							const additionalFields = this.getNodeParameter('additionalFields', i) as {
+								search?: string;
+								sortBy?: string;
+								sortOrder?: string;
+								favorite?: boolean;
+							};
+
+							// Build query parameters, excluding empty values
+							const queryParams: Record<string, any> = {
+								page: this.getNodeParameter('page', i),
+								pageSize: this.getNodeParameter('pageSize', i),
+							};
+
+							if (additionalFields.search) queryParams.search = additionalFields.search;
+							if (additionalFields.sortBy) queryParams.sortBy = additionalFields.sortBy;
+							if (additionalFields.sortOrder) queryParams.sortOrder = additionalFields.sortOrder;
+							if (additionalFields.favorite !== undefined) queryParams.favorite = additionalFields.favorite;
+
 							const response = await this.helpers.httpRequestWithAuthentication.call(
 								this,
 								'onetap',
 								{
 									method: 'GET',
-									url: `/api/profiles?page=${page}&pageSize=${pageSize}`,
+									url: 'https://api-beta.onetapcheckin.com/api/profiles',
+									qs: queryParams,
 								},
 							);
 
@@ -289,6 +352,7 @@ export class OneTap implements INodeType {
 					}
 					throw new NodeOperationError(this.getNode(), error, {
 						itemIndex: i,
+						description: `Failed to fetch profiles from OneTap API: ${error.message}`,
 					});
 				}
 			}
