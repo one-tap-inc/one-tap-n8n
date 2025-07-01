@@ -52,6 +52,10 @@ export class OneTap implements INodeType {
 						name: 'Participants',
 						value: 'participants',
 					},
+					{
+						name: 'Lists',
+						value: 'lists',
+					},
 				],
 				default: 'profile',
 			},
@@ -1285,6 +1289,69 @@ export class OneTap implements INodeType {
 					},
 				},
 			},
+			// LISTS OPERATIONS
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['lists'],
+					},
+				},
+				options: [
+					{
+						name: 'Create',
+						value: 'create',
+						description: 'Create a new list',
+						action: 'Create a new list',
+					},
+					{
+						name: 'Get All',
+						value: 'getAll',
+						description: 'Get all lists',
+						action: 'Get all lists',
+					},
+					{
+						name: 'Get Single',
+						value: 'getSingle',
+						description: 'Get a single list',
+						action: 'Get a single list',
+					},
+					{
+						name: 'Update',
+						value: 'update',
+						description: 'Update a list',
+						action: 'Update a list',
+					},
+					{
+						name: 'Delete Single',
+						value: 'deleteSingle',
+						description: 'Delete a single list',
+						action: 'Delete a single list',
+					},
+					{
+						name: 'Delete Multiple',
+						value: 'deleteMultiple',
+						description: 'Delete multiple lists',
+						action: 'Delete multiple lists',
+					},
+					{
+						name: 'Get List Participants',
+						value: 'getListParticipants',
+						description: 'Get participants for a list',
+						action: 'Get participants for a list',
+					},
+					{
+						name: 'Get List Survey Data',
+						value: 'getListSurveyData',
+						description: 'Get survey data for a list',
+						action: 'Get survey data for a list',
+					},
+				],
+				default: 'getAll',
+			},
 			// CHECK IN/OUT FIELDS
 			{
 				displayName: 'Check-in/Check-out Fields',
@@ -1388,6 +1455,676 @@ export class OneTap implements INodeType {
 						type: 'boolean',
 						default: false,
 						description: 'Send visitor alert',
+					},
+				],
+			},
+			// CREATE LIST FIELDS
+			{
+				displayName: 'List Name',
+				name: 'listName',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'Name of the list',
+				displayOptions: {
+					show: {
+						resource: ['lists'],
+						operation: ['create'],
+					},
+				},
+			},
+			{
+				displayName: 'List Date',
+				name: 'listDate',
+				type: 'dateTime',
+				required: true,
+				default: '',
+				description: 'Date of the list',
+				displayOptions: {
+					show: {
+						resource: ['lists'],
+						operation: ['create'],
+					},
+				},
+			},
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: {
+					show: {
+						resource: ['lists'],
+						operation: ['create'],
+					},
+				},
+				options: [
+					{
+						displayName: 'Description',
+						name: 'description',
+						type: 'string',
+						default: '',
+						description: 'List description',
+					},
+					{
+						displayName: 'Notes',
+						name: 'notes',
+						type: 'string',
+						default: '',
+						description: 'List notes',
+					},
+					{
+						displayName: 'End Date',
+						name: 'endDate',
+						type: 'dateTime',
+						default: '',
+						description: 'End date of the list',
+					},
+					{
+						displayName: 'Time Zone',
+						name: 'timeZone',
+						type: 'string',
+						default: '',
+						description: 'Time zone',
+						placeholder: 'America/Chicago',
+					},
+					{
+						displayName: 'Auto Create Child List',
+						name: 'autoCreateChildList',
+						type: 'boolean',
+						default: false,
+						description: 'Auto create child lists for recurring lists',
+					},
+					{
+						displayName: 'Check Out Enabled',
+						name: 'checkOutEnabled',
+						type: 'boolean',
+						default: false,
+						description: 'Enable check-out for this list',
+					},
+					{
+						displayName: 'Check In Option',
+						name: 'checkInOption',
+						type: 'options',
+						default: 'manual',
+						description: 'Check-in method option',
+						options: [
+							{ name: 'TAP', value: 'tap' },
+							{ name: 'QR', value: 'qr' },
+							{ name: 'Manual', value: 'manual' },
+							{ name: 'Kiosk', value: 'kiosk' },
+							{ name: 'SMS', value: 'sms' },
+							{ name: 'Email', value: 'email' },
+							{ name: 'Voice', value: 'voice' },
+							{ name: 'Browser', value: 'browser' },
+							{ name: 'Mobile App', value: 'mobile_app' },
+						],
+					},
+					{
+						displayName: 'Check Out Option',
+						name: 'checkOutOption',
+						type: 'options',
+						default: 'manual',
+						description: 'Check-out method option',
+						options: [
+							{ name: 'TAP', value: 'tap' },
+							{ name: 'QR', value: 'qr' },
+							{ name: 'Manual', value: 'manual' },
+							{ name: 'Kiosk', value: 'kiosk' },
+							{ name: 'SMS', value: 'sms' },
+							{ name: 'Email', value: 'email' },
+							{ name: 'Voice', value: 'voice' },
+							{ name: 'Browser', value: 'browser' },
+							{ name: 'Mobile App', value: 'mobile_app' },
+						],
+					},
+					{
+						displayName: 'Is Open Registration',
+						name: 'isOpenRegistration',
+						type: 'boolean',
+						default: false,
+						description: 'Enable open registration',
+					},
+					{
+						displayName: 'Open Registration Setting',
+						name: 'openRegistrationSetting',
+						type: 'options',
+						default: 'closed',
+						description: 'Open registration type',
+						options: [
+							{ name: 'Open', value: 'open' },
+							{ name: 'Closed', value: 'closed' },
+							{ name: 'Profiles', value: 'profiles' },
+						],
+					},
+					{
+						displayName: 'Source',
+						name: 'source',
+						type: 'string',
+						default: '',
+						description: 'Source of the list creation',
+					},
+					{
+						displayName: 'Parent ID',
+						name: 'parentId',
+						type: 'string',
+						default: '',
+						description: 'Parent list ID for child lists',
+					},
+					{
+						displayName: 'Schedule',
+						name: 'schedule',
+						type: 'fixedCollection',
+						default: {},
+						description: 'Recurring schedule for the list',
+						options: [
+							{
+								displayName: 'Days',
+								name: 'days',
+								values: [
+									{
+										displayName: 'Monday',
+										name: 'monday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Tuesday',
+										name: 'tuesday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Wednesday',
+										name: 'wednesday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Thursday',
+										name: 'thursday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Friday',
+										name: 'friday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Saturday',
+										name: 'saturday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Sunday',
+										name: 'sunday',
+										type: 'boolean',
+										default: false,
+									},
+								],
+							},
+						],
+					},
+				],
+			},
+			// GET ALL LISTS FIELDS
+			{
+				displayName: 'Return All',
+				name: 'returnAll',
+				type: 'boolean',
+				default: false,
+				description: 'Whether to return all results or only up to the limit',
+				displayOptions: {
+					show: {
+						resource: ['lists'],
+						operation: ['getAll'],
+					},
+				},
+			},
+			{
+				displayName: 'Limit',
+				name: 'limit',
+				type: 'number',
+				default: 100,
+				description: 'Number of lists to retrieve per page',
+				typeOptions: {
+					minValue: 1,
+					maxValue: 1000,
+				},
+				displayOptions: {
+					show: {
+						resource: ['lists'],
+						operation: ['getAll'],
+						returnAll: [false],
+					},
+				},
+			},
+			{
+				displayName: 'Skip',
+				name: 'skip',
+				type: 'number',
+				default: 0,
+				description: 'Number of lists to skip (for pagination)',
+				typeOptions: {
+					minValue: 0,
+				},
+				displayOptions: {
+					show: {
+						resource: ['lists'],
+						operation: ['getAll'],
+						returnAll: [false],
+					},
+				},
+			},
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: {
+					show: {
+						resource: ['lists'],
+						operation: ['getAll'],
+					},
+				},
+				options: [
+					{
+						displayName: 'Sort Field',
+						name: 'sortField',
+						type: 'options',
+						default: 'date',
+						description: 'Field to sort by',
+						options: [
+							{ name: 'Date', value: 'date' },
+							{ name: 'Name', value: 'name' },
+							{ name: 'Created At', value: 'createdAt' },
+							{ name: 'Updated At', value: 'updatedAt' },
+							{ name: 'Size', value: 'size' },
+						],
+					},
+					{
+						displayName: 'Sort Direction',
+						name: 'sortDirection',
+						type: 'options',
+						default: 'descending',
+						description: 'Sort direction',
+						options: [
+							{ name: 'Ascending', value: 'ascending' },
+							{ name: 'Descending', value: 'descending' },
+						],
+					},
+					{
+						displayName: 'Search Query',
+						name: 'searchQuery',
+						type: 'string',
+						default: '',
+						description: 'Search by list name',
+					},
+					{
+						displayName: 'List Type',
+						name: 'listType',
+						type: 'options',
+						default: 'all',
+						description: 'Filter by list type',
+						options: [
+							{ name: 'All', value: 'all' },
+							{ name: 'Recurring', value: 'recurring' },
+							{ name: 'Children', value: 'children' },
+							{ name: 'Individual', value: 'individual' },
+							{ name: 'Root', value: 'root' },
+						],
+					},
+					{
+						displayName: 'Archived',
+						name: 'archived',
+						type: 'boolean',
+						default: false,
+						description: 'Filter by archived status',
+					},
+					{
+						displayName: 'Parent List ID',
+						name: 'parentListId',
+						type: 'string',
+						default: '',
+						description: 'Filter by parent list ID',
+					},
+					{
+						displayName: 'Is Open Registration Enabled',
+						name: 'isOpenRegistrationEnabled',
+						type: 'boolean',
+						default: false,
+						description: 'Filter by open registration status',
+					},
+					{
+						displayName: 'Start Date',
+						name: 'startDate',
+						type: 'dateTime',
+						default: '',
+						description: 'Filter lists after this date',
+					},
+					{
+						displayName: 'End Date',
+						name: 'endDate',
+						type: 'dateTime',
+						default: '',
+						description: 'Filter lists before this date',
+					},
+				],
+			},
+			// GET SINGLE LIST FIELDS
+			{
+				displayName: 'List ID',
+				name: 'listId',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'The ID of the list',
+				displayOptions: {
+					show: {
+						resource: ['lists'],
+						operation: ['getSingle', 'update', 'deleteSingle', 'getListParticipants', 'getListSurveyData'],
+					},
+				},
+			},
+			// UPDATE LIST FIELDS
+			{
+				displayName: 'Update Fields',
+				name: 'updateFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: {
+					show: {
+						resource: ['lists'],
+						operation: ['update'],
+					},
+				},
+				options: [
+					{
+						displayName: 'Name',
+						name: 'name',
+						type: 'string',
+						default: '',
+						description: 'List name',
+					},
+					{
+						displayName: 'Description',
+						name: 'description',
+						type: 'string',
+						default: '',
+						description: 'List description',
+					},
+					{
+						displayName: 'Date',
+						name: 'date',
+						type: 'dateTime',
+						default: '',
+						description: 'List date',
+					},
+					{
+						displayName: 'End Date',
+						name: 'endDate',
+						type: 'dateTime',
+						default: '',
+						description: 'End date',
+					},
+					{
+						displayName: 'Time Zone',
+						name: 'timeZone',
+						type: 'string',
+						default: '',
+						description: 'Time zone',
+						placeholder: 'America/Chicago',
+					},
+					{
+						displayName: 'Auto Create Child List',
+						name: 'autoCreateChildList',
+						type: 'boolean',
+						default: false,
+						description: 'Auto create child lists',
+					},
+					{
+						displayName: 'Check In Option',
+						name: 'checkInOption',
+						type: 'options',
+						default: 'manual',
+						description: 'Check-in method option',
+						options: [
+							{ name: 'TAP', value: 'tap' },
+							{ name: 'QR', value: 'qr' },
+							{ name: 'Manual', value: 'manual' },
+							{ name: 'Kiosk', value: 'kiosk' },
+							{ name: 'SMS', value: 'sms' },
+							{ name: 'Email', value: 'email' },
+							{ name: 'Voice', value: 'voice' },
+							{ name: 'Browser', value: 'browser' },
+							{ name: 'Mobile App', value: 'mobile_app' },
+						],
+					},
+					{
+						displayName: 'Check Out Option',
+						name: 'checkOutOption',
+						type: 'options',
+						default: 'manual',
+						description: 'Check-out method option',
+						options: [
+							{ name: 'TAP', value: 'tap' },
+							{ name: 'QR', value: 'qr' },
+							{ name: 'Manual', value: 'manual' },
+							{ name: 'Kiosk', value: 'kiosk' },
+							{ name: 'SMS', value: 'sms' },
+							{ name: 'Email', value: 'email' },
+							{ name: 'Voice', value: 'voice' },
+							{ name: 'Browser', value: 'browser' },
+							{ name: 'Mobile App', value: 'mobile_app' },
+						],
+					},
+					{
+						displayName: 'Check Out Enabled',
+						name: 'checkOutEnabled',
+						type: 'boolean',
+						default: false,
+						description: 'Enable check-out',
+					},
+					{
+						displayName: 'Is Open Registration',
+						name: 'isOpenRegistration',
+						type: 'boolean',
+						default: false,
+						description: 'Enable open registration',
+					},
+					{
+						displayName: 'Open Registration Setting',
+						name: 'openRegistrationSetting',
+						type: 'options',
+						default: 'closed',
+						description: 'Open registration type',
+						options: [
+							{ name: 'Open', value: 'open' },
+							{ name: 'Closed', value: 'closed' },
+							{ name: 'Profiles', value: 'profiles' },
+						],
+					},
+					{
+						displayName: 'Source',
+						name: 'source',
+						type: 'string',
+						default: '',
+						description: 'Source of the update',
+					},
+					{
+						displayName: 'Schedule',
+						name: 'schedule',
+						type: 'fixedCollection',
+						default: {},
+						description: 'Recurring schedule for the list',
+						options: [
+							{
+								displayName: 'Days',
+								name: 'days',
+								values: [
+									{
+										displayName: 'Monday',
+										name: 'monday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Tuesday',
+										name: 'tuesday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Wednesday',
+										name: 'wednesday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Thursday',
+										name: 'thursday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Friday',
+										name: 'friday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Saturday',
+										name: 'saturday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Sunday',
+										name: 'sunday',
+										type: 'boolean',
+										default: false,
+									},
+								],
+							},
+						],
+					},
+				],
+			},
+			// DELETE MULTIPLE LISTS FIELDS
+			{
+				displayName: 'List IDs',
+				name: 'listIds',
+				type: 'string',
+				default: '',
+				description: 'Comma-separated list IDs to delete',
+				displayOptions: {
+					show: {
+						resource: ['lists'],
+						operation: ['deleteMultiple'],
+					},
+				},
+			},
+			{
+				displayName: 'Delete All',
+				name: 'deleteAll',
+				type: 'boolean',
+				default: false,
+				description: 'Delete all lists for the organization',
+				displayOptions: {
+					show: {
+						resource: ['lists'],
+						operation: ['deleteMultiple'],
+					},
+				},
+			},
+			// GET LIST PARTICIPANTS FIELDS
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: {
+					show: {
+						resource: ['lists'],
+						operation: ['getListParticipants'],
+					},
+				},
+				options: [
+					{
+						displayName: 'Search Query',
+						name: 'searchQuery',
+						type: 'string',
+						default: '',
+						description: 'Search participants by profile name',
+					},
+					{
+						displayName: 'Profile ID',
+						name: 'profileId',
+						type: 'string',
+						default: '',
+						description: 'Filter by specific profile ID',
+					},
+					{
+						displayName: 'Sort Order',
+						name: 'sortOrder',
+						type: 'options',
+						default: 'ascending',
+						description: 'Sort direction',
+						options: [
+							{ name: 'Ascending', value: 'ascending' },
+							{ name: 'Descending', value: 'descending' },
+						],
+					},
+					{
+						displayName: 'Sort Column',
+						name: 'sortColumn',
+						type: 'string',
+						default: 'lastCheckInDate',
+						description: 'Column to sort by',
+					},
+					{
+						displayName: 'Page Number',
+						name: 'pageNumber',
+						type: 'number',
+						default: 0,
+						description: 'Page number',
+					},
+					{
+						displayName: 'Page Size',
+						name: 'pageSize',
+						type: 'number',
+						default: 500,
+						description: 'Results per page',
+					},
+				],
+			},
+			// GET LIST SURVEY DATA FIELDS
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: {
+					show: {
+						resource: ['lists'],
+						operation: ['getListSurveyData'],
+					},
+				},
+				options: [
+					{
+						displayName: 'Profile ID',
+						name: 'profileId',
+						type: 'string',
+						default: '',
+						description: 'Template survey data for specific profile',
 					},
 				],
 			},
@@ -2107,6 +2844,289 @@ export class OneTap implements INodeType {
 							{
 								method: 'POST',
 								url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}/undoCheckout`,
+							},
+						);
+
+						returnData.push({
+							json: response,
+							pairedItem: i,
+						});
+					}
+				} else if (resource === 'lists') {
+					if (operation === 'create') {
+						const listName = this.getNodeParameter('listName', i) as string;
+						const listDate = this.getNodeParameter('listDate', i) as string;
+						const additionalFields = this.getNodeParameter('additionalFields', i) as Record<string, any>;
+
+						// Build the request body
+						const body: Record<string, any> = {
+							name: listName,
+							date: Math.floor(new Date(listDate).getTime() / 1000),
+						};
+
+						// Add optional fields if they have values
+						Object.entries(additionalFields).forEach(([key, value]) => {
+							if (value !== undefined && value !== '' && value !== null) {
+								if (key === 'endDate') {
+									body[key] = Math.floor(new Date(value as string).getTime() / 1000);
+								} else if (key === 'schedule' && value.days) {
+									body[key] = value.days;
+								} else {
+									body[key] = value;
+								}
+							}
+						});
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'POST',
+								url: 'https://api-beta.onetapcheckin.com/api/lists',
+								body,
+							},
+						);
+
+						returnData.push({
+							json: response,
+							pairedItem: i,
+						});
+
+					} else if (operation === 'getAll') {
+						const returnAll = this.getNodeParameter('returnAll', i) as boolean;
+
+						if (returnAll) {
+							// Fetch all lists by paginating through all pages
+							let allLists: any[] = [];
+							let currentPage = 0;
+							let hasMoreData = true;
+							const pageSize = 50; // Use reasonable default for pagination
+
+							while (hasMoreData) {
+								const additionalFields = this.getNodeParameter('additionalFields', i) as Record<string, any>;
+
+								// Build query parameters
+								const queryParams: Record<string, any> = {
+									limit: pageSize,
+									skip: currentPage * pageSize,
+								};
+
+								// Add additional fields as query parameters
+								Object.entries(additionalFields).forEach(([key, value]) => {
+									if (value !== undefined && value !== '' && value !== null) {
+										if (key.includes('Date')) {
+											queryParams[key] = Math.floor(new Date(value as string).getTime() / 1000);
+										} else {
+											queryParams[key] = value;
+										}
+									}
+								});
+
+								const response = await this.helpers.httpRequestWithAuthentication.call(
+									this,
+									'onetap',
+									{
+										method: 'GET',
+										url: 'https://api-beta.onetapcheckin.com/api/lists',
+										qs: queryParams,
+									},
+								);
+
+								const lists = Array.isArray(response) ? response : [response];
+								allLists = allLists.concat(lists);
+								
+								// Check if we got fewer results than requested, indicating last page
+								hasMoreData = lists.length === pageSize;
+								currentPage++;
+							}
+
+							// Return all lists as separate items
+							for (const list of allLists) {
+								returnData.push({
+									json: list,
+									pairedItem: i,
+								});
+							}
+						} else {
+							// Single page request
+							const additionalFields = this.getNodeParameter('additionalFields', i) as Record<string, any>;
+
+							// Build query parameters
+							const queryParams: Record<string, any> = {
+								limit: this.getNodeParameter('limit', i),
+								skip: this.getNodeParameter('skip', i),
+							};
+
+							// Add additional fields as query parameters
+							Object.entries(additionalFields).forEach(([key, value]) => {
+								if (value !== undefined && value !== '' && value !== null) {
+									if (key.includes('Date')) {
+										queryParams[key] = Math.floor(new Date(value as string).getTime() / 1000);
+									} else {
+										queryParams[key] = value;
+									}
+								}
+							});
+
+							const response = await this.helpers.httpRequestWithAuthentication.call(
+								this,
+								'onetap',
+								{
+									method: 'GET',
+									url: 'https://api-beta.onetapcheckin.com/api/lists',
+									qs: queryParams,
+								},
+							);
+
+							const lists = Array.isArray(response) ? response : [response];
+							for (const list of lists) {
+								returnData.push({
+									json: list,
+									pairedItem: i,
+								});
+							}
+						}
+					} else if (operation === 'getSingle') {
+						const listId = this.getNodeParameter('listId', i) as string;
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'GET',
+								url: `https://api-beta.onetapcheckin.com/api/lists/${listId}`,
+							},
+						);
+
+						returnData.push({
+							json: response,
+							pairedItem: i,
+						});
+					} else if (operation === 'update') {
+						const listId = this.getNodeParameter('listId', i) as string;
+						const updateFields = this.getNodeParameter('updateFields', i) as Record<string, any>;
+
+						// Build the request body
+						const body: Record<string, any> = {};
+
+						Object.entries(updateFields).forEach(([key, value]) => {
+							if (value !== undefined && value !== '' && value !== null) {
+								if (key === 'date' || key === 'endDate') {
+									body[key] = Math.floor(new Date(value as string).getTime() / 1000);
+								} else if (key === 'schedule' && value.days) {
+									body[key] = value.days;
+								} else {
+									body[key] = value;
+								}
+							}
+						});
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'PUT',
+								url: `https://api-beta.onetapcheckin.com/api/lists/${listId}`,
+								body,
+							},
+						);
+
+						returnData.push({
+							json: response,
+							pairedItem: i,
+						});
+					} else if (operation === 'deleteSingle') {
+						const listId = this.getNodeParameter('listId', i) as string;
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'DELETE',
+								url: `https://api-beta.onetapcheckin.com/api/lists/${listId}`,
+							},
+						);
+
+						returnData.push({
+							json: response,
+							pairedItem: i,
+						});
+					} else if (operation === 'deleteMultiple') {
+						const listIds = this.getNodeParameter('listIds', i) as string;
+						const deleteAll = this.getNodeParameter('deleteAll', i) as boolean;
+
+						// Build the request body
+						const body: Record<string, any> = {};
+						
+						if (deleteAll) {
+							body.deleteAll = true;
+						} else if (listIds) {
+							body.listIds = listIds.split(',').map(id => id.trim());
+						}
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'DELETE',
+								url: 'https://api-beta.onetapcheckin.com/api/lists',
+								body,
+							},
+						);
+
+						returnData.push({
+							json: response,
+							pairedItem: i,
+						});
+					} else if (operation === 'getListParticipants') {
+						const listId = this.getNodeParameter('listId', i) as string;
+						const additionalFields = this.getNodeParameter('additionalFields', i) as Record<string, any>;
+
+						// Build query parameters
+						const queryParams: Record<string, any> = {};
+
+						// Add additional fields as query parameters
+						Object.entries(additionalFields).forEach(([key, value]) => {
+							if (value !== undefined && value !== '' && value !== null) {
+								queryParams[key] = value;
+							}
+						});
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'GET',
+								url: `https://api-beta.onetapcheckin.com/api/lists/${listId}/participants`,
+								qs: queryParams,
+							},
+						);
+
+						returnData.push({
+							json: response,
+							pairedItem: i,
+						});
+					} else if (operation === 'getListSurveyData') {
+						const listId = this.getNodeParameter('listId', i) as string;
+						const additionalFields = this.getNodeParameter('additionalFields', i) as Record<string, any>;
+
+						// Build query parameters
+						const queryParams: Record<string, any> = {};
+
+						// Add additional fields as query parameters
+						Object.entries(additionalFields).forEach(([key, value]) => {
+							if (value !== undefined && value !== '' && value !== null) {
+								queryParams[key] = value;
+							}
+						});
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'onetap',
+							{
+								method: 'GET',
+								url: `https://api-beta.onetapcheckin.com/api/lists/${listId}/survey`,
+								qs: queryParams,
 							},
 						);
 
