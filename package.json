@@ -1,15 +1,16 @@
 {
-  "name": "n8n-nodes-<...>",
+  "name": "n8n-nodes-onetap",
   "version": "0.1.0",
-  "description": "",
+  "description": "n8n nodes for onetap (onetapcheckin.com)",
   "keywords": [
-    "n8n-community-node-package"
+    "n8n-community-node-package",
+    "n8n-nodes-onetap"
   ],
   "license": "MIT",
   "homepage": "",
   "author": {
-    "name": "",
-    "email": ""
+    "name": "OneTap",
+    "email": "hello@onetapcheckin.com"
   },
   "repository": {
     "type": "git",
@@ -33,11 +34,11 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/ExampleCredentialsApi.credentials.js",
+      "dist/credentials/OneTap.credentials.js",
       "dist/credentials/HttpBinApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/ExampleNode/ExampleNode.node.js",
+      "dist/nodes/OneTap/OneTap.node.js",
       "dist/nodes/HttpBin/HttpBin.node.js"
     ]
   },
