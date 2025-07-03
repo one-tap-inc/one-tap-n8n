@@ -11,7 +11,6 @@ export class OneTap implements INodeType {
 		displayName: 'OneTap',
 		name: 'onetap',
 		group: ['marketing'],
-		//icon: 'file:onetap.png',
 		version: 1,
 		description: 'Manage visitors, check-ins, and attendance with OneTap',
 		defaults: {
@@ -22,7 +21,7 @@ export class OneTap implements INodeType {
 		usableAsTool: true,
 		credentials: [
 			{
-				name: 'onetap',
+				name: 'onetapApi',
 				required: true,
 			},
 		],
@@ -45,19 +44,19 @@ export class OneTap implements INodeType {
 						value: 'profile',
 					},
 					{
-						name: 'Passports',
+						name: 'Passport',
 						value: 'passports',
 					},
 					{
-						name: 'Punch Passes',
+						name: 'Punch Pass',
 						value: 'punchPasses',
 					},
 					{
-						name: 'Participants',
+						name: 'Participant',
 						value: 'participants',
 					},
 					{
-						name: 'Lists',
+						name: 'List',
 						value: 'lists',
 					},
 				],
@@ -75,10 +74,10 @@ export class OneTap implements INodeType {
 				},
 				options: [
 					{
-						name: 'Get All',
+						name: 'Get Many',
 						value: 'getAll',
-						description: 'Fetch all profiles',
-						action: 'Get all profiles',
+						description: 'Fetch many profiles',
+						action: 'Get many profiles',
 						routing: {
 							request: {
 								method: 'GET',
@@ -132,7 +131,7 @@ export class OneTap implements INodeType {
 						name: 'Find by Check-in Code',
 						value: 'findByCheckInCode',
 						description: 'Find profile by check-in code',
-						action: 'Find profile by check-in code',
+						action: 'Find profile by check in code',
 					},
 				],
 				default: 'getAll',
@@ -142,7 +141,7 @@ export class OneTap implements INodeType {
 				name: 'returnAll',
 				type: 'boolean',
 				default: false,
-				description: 'Whether to return all results or only up to the page size limit',
+				description: 'Whether to return all results or only up to a given limit',
 				displayOptions: {
 					show: {
 						resource: ['profile'],
@@ -228,7 +227,7 @@ export class OneTap implements INodeType {
 						displayName: 'Sort By',
 						name: 'sortBy',
 						type: 'options',
-						default: '',
+						default: 'name',
 						description: 'Field to sort by',
 						options: [
 							{
@@ -279,7 +278,7 @@ export class OneTap implements INodeType {
 						name: 'favorite',
 						type: 'boolean',
 						default: false,
-						description: 'Filter by favorite status',
+						description: 'Whether to filter by favorite status',
 						routing: {
 							send: {
 								type: 'query',
@@ -362,7 +361,7 @@ export class OneTap implements INodeType {
 						name: 'favorite',
 						type: 'boolean',
 						default: false,
-						description: 'Mark profile as favorite',
+						description: 'Whether to mark profile as favorite',
 					},
 					{
 						displayName: 'Check-in Code',
@@ -502,7 +501,7 @@ export class OneTap implements INodeType {
 						name: 'favorite',
 						type: 'boolean',
 						default: false,
-						description: 'Mark profile as favorite',
+						description: 'Whether to mark profile as favorite',
 					},
 					{
 						displayName: 'Check-in Code',
@@ -517,21 +516,21 @@ export class OneTap implements INodeType {
 						name: 'allowDuplicate',
 						type: 'boolean',
 						default: false,
-						description: 'Allow duplicate profiles',
+						description: 'Whether to allow duplicate profiles',
 					},
 					{
 						displayName: 'Duplicate Phone Allowed',
 						name: 'duplicatePhoneAllowed',
 						type: 'boolean',
 						default: false,
-						description: 'Allow duplicate phone numbers',
+						description: 'Whether to allow duplicate phone numbers',
 					},
 					{
 						displayName: 'Send Confirmation Email',
 						name: 'enableSendConfirmationEmail',
 						type: 'boolean',
 						default: false,
-						description: 'Send confirmation email after creation',
+						description: 'Whether to send confirmation email after creation',
 					},
 					{
 						displayName: 'Time Zone',
@@ -672,10 +671,10 @@ export class OneTap implements INodeType {
 				},
 				options: [
 					{
-						name: 'Get All',
+						name: 'Get Many',
 						value: 'getAll',
-						description: 'Fetch all passes for a profile or participant',
-						action: 'Get all passes for a profile or participant',
+						description: 'Fetch many passes for a profile or participant',
+						action: 'Get many passes for a profile or participant',
 					},
 					{
 						name: 'Get by Participant',
@@ -780,7 +779,6 @@ export class OneTap implements INodeType {
 				type: 'string',
 				required: true,
 				default: '',
-				description: 'The participant ID',
 				displayOptions: {
 					show: {
 						resource: ['passports'],
@@ -795,7 +793,6 @@ export class OneTap implements INodeType {
 				type: 'string',
 				required: true,
 				default: '',
-				description: 'The profile ID',
 				displayOptions: {
 					show: {
 						resource: ['passports'],
@@ -808,7 +805,7 @@ export class OneTap implements INodeType {
 				name: 'customBarcode',
 				type: 'boolean',
 				default: false,
-				description: 'Include custom barcode',
+				description: 'Whether to include custom barcode',
 				displayOptions: {
 					show: {
 						resource: ['passports'],
@@ -821,8 +818,11 @@ export class OneTap implements INodeType {
 				displayName: 'Limit',
 				name: 'limit',
 				type: 'number',
-				default: 500,
-				description: 'Maximum number of results',
+				typeOptions: {
+					minValue: 1,
+				},
+				default: 50,
+				description: 'Max number of results to return',
 				displayOptions: {
 					show: {
 						resource: ['passports'],
@@ -918,16 +918,16 @@ export class OneTap implements INodeType {
 						action: 'Create a new punch passport',
 					},
 					{
-						name: 'Get All',
+						name: 'Get Many',
 						value: 'getAll',
-						description: 'Get all punch passes for a profile',
-						action: 'Get all punch passes for a profile',
+						description: 'Get many punch passes for a profile',
+						action: 'Get many punch passes for a profile',
 					},
 					{
 						name: 'Get Single',
 						value: 'getSingle',
 						description: 'Get a single punch pass with check-ins',
-						action: 'Get a single punch pass with check-ins',
+						action: 'Get a single punch pass with check ins',
 					},
 					{
 						name: 'Update',
@@ -939,7 +939,7 @@ export class OneTap implements INodeType {
 						name: 'Redeem',
 						value: 'redeem',
 						description: 'Redeem a punch passport by associating a check-in',
-						action: 'Redeem a punch passport by associating a check-in',
+						action: 'Redeem a punch passport by associating a check in',
 					},
 				],
 				default: 'getAll',
@@ -1046,7 +1046,7 @@ export class OneTap implements INodeType {
 						name: 'status',
 						type: 'boolean',
 						default: true,
-						description: 'Active status of the passport',
+						description: 'Whether the passport is active',
 					},
 					{
 						displayName: 'Check Ins Limit',
@@ -1088,7 +1088,7 @@ export class OneTap implements INodeType {
 				name: 'returnAll',
 				type: 'boolean',
 				default: false,
-				description: 'Whether to return all results or only up to the page size limit',
+				description: 'Whether to return all results or only up to a given limit',
 				displayOptions: {
 					show: {
 						resource: ['punchPasses'],
@@ -1157,7 +1157,6 @@ export class OneTap implements INodeType {
 						name: 'sortDirection',
 						type: 'options',
 						default: 'ascending',
-						description: 'Sort direction',
 						options: [
 							{
 								name: 'Ascending',
@@ -1277,7 +1276,7 @@ export class OneTap implements INodeType {
 						name: 'Create',
 						value: 'create',
 						description: 'Create participant(s)',
-						action: 'Create participant(s)',
+						action: 'Create participant s',
 					},
 					{
 						name: 'Get Single',
@@ -1292,10 +1291,10 @@ export class OneTap implements INodeType {
 						action: 'Update a participant',
 					},
 					{
-						name: 'Get All',
+						name: 'Get Many',
 						value: 'getAll',
-						description: 'Get all participants',
-						action: 'Get all participants',
+						description: 'Get many participants',
+						action: 'Get many participants',
 					},
 					{
 						name: 'Delete',
@@ -1319,13 +1318,13 @@ export class OneTap implements INodeType {
 						name: 'Undo Check In',
 						value: 'undoCheckIn',
 						description: 'Undo check-in for a participant',
-						action: 'Undo check-in for a participant',
+						action: 'Undo check in for a participant',
 					},
 					{
 						name: 'Undo Check Out',
 						value: 'undoCheckOut',
 						description: 'Undo check-out for a participant',
-						action: 'Undo check-out for a participant',
+						action: 'Undo check out for a participant',
 					},
 				],
 				default: 'getAll',
@@ -1388,7 +1387,7 @@ export class OneTap implements INodeType {
 				name: 'addAllProfile',
 				type: 'boolean',
 				default: false,
-				description: 'Add all profiles (alternative to specifying profile IDs)',
+				description: 'Whether to add all profiles (alternative to specifying profile IDs)',
 				displayOptions: {
 					show: {
 						resource: ['participants'],
@@ -1414,14 +1413,14 @@ export class OneTap implements INodeType {
 						name: 'notAllowDuplicate',
 						type: 'boolean',
 						default: false,
-						description: 'Prevent duplicate participants',
+						description: 'Whether to prevent duplicate participants',
 					},
 					{
 						displayName: 'Override Parent Auto Add',
 						name: 'overrideParentAutoAdd',
 						type: 'boolean',
 						default: false,
-						description: 'Override parent auto-add setting',
+						description: 'Whether to override parent auto-add setting',
 					},
 					{
 						displayName: 'Search Text',
@@ -1435,14 +1434,14 @@ export class OneTap implements INodeType {
 						name: 'checkedIn',
 						type: 'boolean',
 						default: false,
-						description: 'Check-in status',
+						description: 'Whether participant is checked in',
 					},
 					{
 						displayName: 'Checked Out',
 						name: 'checkedOut',
 						type: 'boolean',
 						default: false,
-						description: 'Check-out status',
+						description: 'Whether participant is checked out',
 					},
 					{
 						displayName: 'Check In Date',
@@ -1462,7 +1461,7 @@ export class OneTap implements INodeType {
 						displayName: 'Check In Method',
 						name: 'checkInMethod',
 						type: 'options',
-						default: '',
+						default: 'TAP',
 						description: 'Method used for check-in',
 						options: [
 							{ name: 'TAP', value: 'TAP' },
@@ -1480,7 +1479,7 @@ export class OneTap implements INodeType {
 						displayName: 'Check Out Method',
 						name: 'checkOutMethod',
 						type: 'options',
-						default: '',
+						default: 'TAP',
 						description: 'Method used for check-out',
 						options: [
 							{ name: 'TAP', value: 'TAP' },
@@ -1717,7 +1716,6 @@ export class OneTap implements INodeType {
 						name: 'timeZone',
 						type: 'string',
 						default: '',
-						description: 'Time zone',
 						placeholder: 'America/Chicago',
 					},
 					{
@@ -1725,7 +1723,6 @@ export class OneTap implements INodeType {
 						name: 'installationId',
 						type: 'string',
 						default: '',
-						description: 'Installation ID',
 					},
 					{
 						displayName: 'Source',
@@ -1742,7 +1739,7 @@ export class OneTap implements INodeType {
 				name: 'returnAll',
 				type: 'boolean',
 				default: false,
-				description: 'Whether to return all results or only up to the page size limit',
+				description: 'Whether to return all results or only up to a given limit',
 				displayOptions: {
 					show: {
 						resource: ['participants'],
@@ -1754,11 +1751,10 @@ export class OneTap implements INodeType {
 				displayName: 'Limit',
 				name: 'limit',
 				type: 'number',
-				default: 100,
-				description: 'Number of participants to retrieve per page',
+				default: 50,
+				description: 'Max number of results to return',
 				typeOptions: {
 					minValue: 1,
-					maxValue: 1000,
 				},
 				displayOptions: {
 					show: {
@@ -1831,38 +1827,38 @@ export class OneTap implements INodeType {
 						name: 'checkedIn',
 						type: 'boolean',
 						default: false,
-						description: 'Filter by check-in status',
+						description: 'Whether to filter by check-in status',
 					},
 					{
 						displayName: 'Checked Out',
 						name: 'checkedOut',
 						type: 'boolean',
 						default: false,
-						description: 'Filter by check-out status',
+						description: 'Whether to filter by check-out status',
 					},
 					{
-						displayName: 'Check-ins After Date',
+						displayName: 'Check-Ins After Date',
 						name: 'gtCheckInDate',
 						type: 'dateTime',
 						default: '',
 						description: 'Filter check-ins after this date',
 					},
 					{
-						displayName: 'Check-ins Before Date',
+						displayName: 'Check-Ins Before Date',
 						name: 'ltCheckInDate',
 						type: 'dateTime',
 						default: '',
 						description: 'Filter check-ins before this date',
 					},
 					{
-						displayName: 'Check-outs After Date',
+						displayName: 'Check-Outs After Date',
 						name: 'gtCheckOutDate',
 						type: 'dateTime',
 						default: '',
 						description: 'Filter check-outs after this date',
 					},
 					{
-						displayName: 'Check-outs Before Date',
+						displayName: 'Check-Outs Before Date',
 						name: 'ltCheckOutDate',
 						type: 'dateTime',
 						default: '',
@@ -1886,7 +1882,7 @@ export class OneTap implements INodeType {
 						displayName: 'Sort Field',
 						name: 'sortField',
 						type: 'options',
-						default: '',
+						default: 'checkInDate',
 						description: 'Field to sort by',
 						options: [
 							{ name: 'Check In Date', value: 'checkInDate' },
@@ -1947,10 +1943,10 @@ export class OneTap implements INodeType {
 						action: 'Create a new list',
 					},
 					{
-						name: 'Get All',
+						name: 'Get Many',
 						value: 'getAll',
-						description: 'Get all lists',
-						action: 'Get all lists',
+						description: 'Get many lists',
+						action: 'Get many lists',
 					},
 					{
 						name: 'Get Single',
@@ -1987,7 +1983,7 @@ export class OneTap implements INodeType {
 			},
 			// CHECK IN/OUT FIELDS
 			{
-				displayName: 'Check-in/Check-out Fields',
+				displayName: 'Check-in/Check-Out Fields',
 				name: 'checkFields',
 				type: 'collection',
 				placeholder: 'Add Field',
@@ -2004,14 +2000,12 @@ export class OneTap implements INodeType {
 						name: 'listId',
 						type: 'string',
 						default: '',
-						description: 'List ID',
 					},
 					{
 						displayName: 'Profile ID',
 						name: 'profileId',
 						type: 'string',
 						default: '',
-						description: 'Profile ID',
 					},
 					{
 						displayName: 'Method',
@@ -2072,7 +2066,6 @@ export class OneTap implements INodeType {
 						name: 'timeZone',
 						type: 'string',
 						default: '',
-						description: 'Time zone',
 						placeholder: 'America/Chicago',
 					},
 					{
@@ -2080,14 +2073,12 @@ export class OneTap implements INodeType {
 						name: 'installationId',
 						type: 'string',
 						default: '',
-						description: 'Installation ID',
 					},
 					{
 						displayName: 'Send Visitor Alert',
 						name: 'sendVisitorAlert',
 						type: 'boolean',
 						default: false,
-						description: 'Send visitor alert',
 					},
 				],
 			},
@@ -2159,7 +2150,6 @@ export class OneTap implements INodeType {
 						name: 'timeZone',
 						type: 'string',
 						default: '',
-						description: 'Time zone',
 						placeholder: 'America/Chicago',
 					},
 					{
@@ -2167,14 +2157,14 @@ export class OneTap implements INodeType {
 						name: 'autoCreateChildList',
 						type: 'boolean',
 						default: false,
-						description: 'Auto create child lists for recurring lists',
+						description: 'Whether to auto create child lists for recurring lists',
 					},
 					{
 						displayName: 'Check Out Enabled',
 						name: 'checkOutEnabled',
 						type: 'boolean',
 						default: false,
-						description: 'Enable check-out for this list',
+						description: 'Whether to enable check-out for this list',
 					},
 					{
 						displayName: 'Check In Option',
@@ -2217,7 +2207,7 @@ export class OneTap implements INodeType {
 						name: 'isOpenRegistration',
 						type: 'boolean',
 						default: false,
-						description: 'Enable open registration',
+						description: 'Whether to enable open registration',
 					},
 					{
 						displayName: 'Open Registration Setting',
@@ -2256,49 +2246,49 @@ export class OneTap implements INodeType {
 								displayName: 'Days',
 								name: 'days',
 								values: [
-									{
-										displayName: 'Monday',
-										name: 'monday',
-										type: 'boolean',
-										default: false,
-									},
-									{
-										displayName: 'Tuesday',
-										name: 'tuesday',
-										type: 'boolean',
-										default: false,
-									},
-									{
-										displayName: 'Wednesday',
-										name: 'wednesday',
-										type: 'boolean',
-										default: false,
-									},
-									{
-										displayName: 'Thursday',
-										name: 'thursday',
-										type: 'boolean',
-										default: false,
-									},
-									{
-										displayName: 'Friday',
-										name: 'friday',
-										type: 'boolean',
-										default: false,
-									},
-									{
-										displayName: 'Saturday',
-										name: 'saturday',
-										type: 'boolean',
-										default: false,
-									},
-									{
-										displayName: 'Sunday',
-										name: 'sunday',
-										type: 'boolean',
-										default: false,
-									},
-								],
+							{
+								displayName: 'Friday',
+								name: 'friday',
+								type: 'boolean',
+								default: false,
+							},
+							{
+								displayName: 'Monday',
+								name: 'monday',
+								type: 'boolean',
+								default: false,
+							},
+							{
+								displayName: 'Saturday',
+								name: 'saturday',
+								type: 'boolean',
+								default: false,
+							},
+							{
+								displayName: 'Sunday',
+								name: 'sunday',
+								type: 'boolean',
+								default: false,
+							},
+							{
+								displayName: 'Thursday',
+								name: 'thursday',
+								type: 'boolean',
+								default: false,
+							},
+							{
+								displayName: 'Tuesday',
+								name: 'tuesday',
+								type: 'boolean',
+								default: false,
+							},
+							{
+								displayName: 'Wednesday',
+								name: 'wednesday',
+								type: 'boolean',
+								default: false,
+							},
+						],
 							},
 						],
 					},
@@ -2310,7 +2300,7 @@ export class OneTap implements INodeType {
 				name: 'returnAll',
 				type: 'boolean',
 				default: false,
-				description: 'Whether to return all results or only up to the limit',
+				description: 'Whether to return all results or only up to a given limit',
 				displayOptions: {
 					show: {
 						resource: ['lists'],
@@ -2322,11 +2312,10 @@ export class OneTap implements INodeType {
 				displayName: 'Limit',
 				name: 'limit',
 				type: 'number',
-				default: 100,
-				description: 'Number of lists to retrieve per page',
+				default: 50,
+				description: 'Max number of results to return',
 				typeOptions: {
 					minValue: 1,
-					maxValue: 1000,
 				},
 				displayOptions: {
 					show: {
@@ -2385,7 +2374,6 @@ export class OneTap implements INodeType {
 						name: 'sortDirection',
 						type: 'options',
 						default: 'descending',
-						description: 'Sort direction',
 						options: [
 							{ name: 'Ascending', value: 'ascending' },
 							{ name: 'Descending', value: 'descending' },
@@ -2417,7 +2405,7 @@ export class OneTap implements INodeType {
 						name: 'archived',
 						type: 'boolean',
 						default: false,
-						description: 'Filter by archived status',
+						description: 'Whether to filter by archived status',
 					},
 					{
 						displayName: 'Parent List ID',
@@ -2431,7 +2419,7 @@ export class OneTap implements INodeType {
 						name: 'isOpenRegistrationEnabled',
 						type: 'boolean',
 						default: false,
-						description: 'Filter by open registration status',
+						description: 'Whether to filter by open registration status',
 					},
 					{
 						displayName: 'Start Date',
@@ -2504,14 +2492,12 @@ export class OneTap implements INodeType {
 						name: 'endDate',
 						type: 'dateTime',
 						default: '',
-						description: 'End date',
 					},
 					{
 						displayName: 'Time Zone',
 						name: 'timeZone',
 						type: 'string',
 						default: '',
-						description: 'Time zone',
 						placeholder: 'America/Chicago',
 					},
 					{
@@ -2519,7 +2505,7 @@ export class OneTap implements INodeType {
 						name: 'autoCreateChildList',
 						type: 'boolean',
 						default: false,
-						description: 'Auto create child lists',
+						description: 'Whether to auto create child lists',
 					},
 					{
 						displayName: 'Check In Option',
@@ -2562,14 +2548,14 @@ export class OneTap implements INodeType {
 						name: 'checkOutEnabled',
 						type: 'boolean',
 						default: false,
-						description: 'Enable check-out',
+						description: 'Whether to enable check-out',
 					},
 					{
 						displayName: 'Is Open Registration',
 						name: 'isOpenRegistration',
 						type: 'boolean',
 						default: false,
-						description: 'Enable open registration',
+						description: 'Whether to enable open registration',
 					},
 					{
 						displayName: 'Open Registration Setting',
@@ -2601,49 +2587,49 @@ export class OneTap implements INodeType {
 								displayName: 'Days',
 								name: 'days',
 								values: [
-									{
-										displayName: 'Monday',
-										name: 'monday',
-										type: 'boolean',
-										default: false,
-									},
-									{
-										displayName: 'Tuesday',
-										name: 'tuesday',
-										type: 'boolean',
-										default: false,
-									},
-									{
-										displayName: 'Wednesday',
-										name: 'wednesday',
-										type: 'boolean',
-										default: false,
-									},
-									{
-										displayName: 'Thursday',
-										name: 'thursday',
-										type: 'boolean',
-										default: false,
-									},
-									{
-										displayName: 'Friday',
-										name: 'friday',
-										type: 'boolean',
-										default: false,
-									},
-									{
-										displayName: 'Saturday',
-										name: 'saturday',
-										type: 'boolean',
-										default: false,
-									},
-									{
-										displayName: 'Sunday',
-										name: 'sunday',
-										type: 'boolean',
-										default: false,
-									},
-								],
+							{
+								displayName: 'Friday',
+								name: 'friday',
+								type: 'boolean',
+								default: false,
+							},
+							{
+								displayName: 'Monday',
+								name: 'monday',
+								type: 'boolean',
+								default: false,
+							},
+							{
+								displayName: 'Saturday',
+								name: 'saturday',
+								type: 'boolean',
+								default: false,
+							},
+							{
+								displayName: 'Sunday',
+								name: 'sunday',
+								type: 'boolean',
+								default: false,
+							},
+							{
+								displayName: 'Thursday',
+								name: 'thursday',
+								type: 'boolean',
+								default: false,
+							},
+							{
+								displayName: 'Tuesday',
+								name: 'tuesday',
+								type: 'boolean',
+								default: false,
+							},
+							{
+								displayName: 'Wednesday',
+								name: 'wednesday',
+								type: 'boolean',
+								default: false,
+							},
+						],
 							},
 						],
 					},
@@ -2664,11 +2650,11 @@ export class OneTap implements INodeType {
 				},
 			},
 			{
-				displayName: 'Delete All',
-				name: 'deleteAll',
-				type: 'boolean',
-				default: false,
-				description: 'Delete all lists for the organization',
+							displayName: 'Delete All',
+			name: 'deleteAll',
+			type: 'boolean',
+			default: false,
+			description: 'Whether to delete all lists for the organization',
 				displayOptions: {
 					show: {
 						resource: ['lists'],

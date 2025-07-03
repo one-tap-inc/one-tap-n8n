@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-onetap",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "n8n nodes for onetap (onetapcheckin.com)",
   "keywords": [
     "n8n",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/<...>/n8n-nodes-<...>.git"
+    "url": "https://github.com/one-tap-inc/one-tap-n8n"
   },
   "engines": {
     "node": ">=20.15"
@@ -28,7 +28,7 @@
     "format": "prettier nodes credentials --write",
     "lint": "eslint nodes credentials package.json",
     "lintfix": "eslint nodes credentials package.json --fix",
-    "prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js nodes credentials package.json"
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "dist/**/*"
@@ -36,12 +36,12 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/OneTap.credentials.js",
-      "dist/credentials/HttpBinApi.credentials.js"
+      "dist/credentials/OneTap.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/OneTap/OneTap.node.js",
-      "dist/nodes/HttpBin/HttpBin.node.js"
+      "dist/nodes/OneTap/Onetap.node.js",
+      "dist/nodes/OneTap/OnetapTrigger.node.js",
+      "dist/nodes/OneTap/OnetapWebhookManager.node.js"
     ]
   },
   "devDependencies": {
