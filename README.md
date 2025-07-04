@@ -255,6 +255,8 @@ We've included a complete example workflow that demonstrates how to build a powe
 
 **📁 [Example Workflow](./examples/example_n8n_workflow.json)**
 
+[Example workflow /w video 📺](https://community.onetapcheckin.com/t/n8n-integration-coming-out-soon/155)
+
 This workflow:
 1. **Fetches all profiles** from your OneTap account using your API key
 2. **Loops through each profile** to get the number of check-ins performed
@@ -277,6 +279,7 @@ To use this workflow:
 2. Configure your OneTap API credentials
 3. Set up your Airtable connection
 4. Customize the schedule or webhook triggers as needed
+
 
 ## Advanced Features
 
@@ -515,6 +518,7 @@ If you want to manually install the node without using the community nodes insta
 * [OneTap Platform](https://onetapcheckin.com/)
 * [OneTap Community](https://community.onetapcheckin.com/)
 * [OneTap Pricing](https://www.onetapcheckin.com/pricing)
+* [OneTap n8n Integration Discussion](https://community.onetapcheckin.com/t/n8n-integration-coming-out-soon/155)
 
 ## API Endpoints
 
