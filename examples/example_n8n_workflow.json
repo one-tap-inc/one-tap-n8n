@@ -27,8 +27,8 @@
       "name": "get_profiles",
       "credentials": {
         "onetap": {
-          "id": "S14pLUVcCKuCVudP",
-          "name": "onetap account (karsh+1)"
+          "id": "",
+          "name": "onetap account"
         }
       }
     },
@@ -62,8 +62,8 @@
       "name": "get_check_ins",
       "credentials": {
         "onetap": {
-          "id": "S14pLUVcCKuCVudP",
-          "name": "onetap account (karsh+1)"
+          "id": "",
+          "name": "onetap account"
         }
       }
     },
@@ -190,8 +190,8 @@
       "name": "airtable",
       "credentials": {
         "airtableTokenApi": {
-          "id": "gU57ziMkqkyedJSE",
-          "name": "OneTap Airtable"
+          "id": "",
+          "name": "airtable_account"
         }
       }
     }
