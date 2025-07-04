@@ -21,7 +21,7 @@ export class OneTap implements INodeType {
 		usableAsTool: true,
 		credentials: [
 			{
-				name: 'onetapApi',
+				name: 'onetap',
 				required: true,
 			},
 		],

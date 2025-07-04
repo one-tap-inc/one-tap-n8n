@@ -25,7 +25,7 @@ export class OneTapTrigger implements INodeType {
 		outputs: [NodeConnectionType.Main],
 		credentials: [
 			{
-				name: 'onetapApi',
+				name: 'onetap',
 				required: true,
 			},
 		],

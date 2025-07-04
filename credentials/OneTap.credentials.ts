@@ -5,8 +5,8 @@ import {
 	INodeProperties,
 } from 'n8n-workflow';
 
-export class OneTapApi implements ICredentialType {
-	name = 'onetapApi';
+export class OneTap implements ICredentialType {
+	name = 'onetap';
 	displayName = 'OneTap API';
 
 	documentationUrl = 'https://apidocs.onetapcheckin.io';
