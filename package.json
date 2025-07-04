@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-onetap",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "n8n nodes for onetap (onetapcheckin.com)",
   "keywords": [
     "n8n",
