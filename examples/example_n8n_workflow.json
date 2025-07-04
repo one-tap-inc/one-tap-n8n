@@ -1,0 +1,269 @@
+{
+  "name": "onetap-check-in-analytics-airtable",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3315ca56-d9f6-4a62-bded-2fdd02dd005c",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "returnAll": true,
+        "additionalFields": {}
+      },
+      "type": "CUSTOM.onetap",
+      "typeVersion": 1,
+      "position": [
+        220,
+        0
+      ],
+      "id": "2543ff8f-1042-48cd-9198-abe8cf82aa58",
+      "name": "get_profiles",
+      "credentials": {
+        "onetap": {
+          "id": "S14pLUVcCKuCVudP",
+          "name": "onetap account (karsh+1)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        440,
+        0
+      ],
+      "id": "cf92f402-7d8b-46ff-99b8-abe5f93f1fd7",
+      "name": "loop_profiles"
+    },
+    {
+      "parameters": {
+        "resource": "participants",
+        "additionalFields": {
+          "profileId": "={{ $json.id }}"
+        }
+      },
+      "type": "CUSTOM.onetap",
+      "typeVersion": 1,
+      "position": [
+        700,
+        60
+      ],
+      "id": "c96f8fcd-10d6-4819-a5e2-045a03e21c03",
+      "name": "get_check_ins",
+      "credentials": {
+        "onetap": {
+          "id": "S14pLUVcCKuCVudP",
+          "name": "onetap account (karsh+1)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "base": {
+          "__rl": true,
+          "value": "appqsB3uTY5OaVKoZ",
+          "mode": "list",
+          "cachedResultName": "n8n-integration-test",
+          "cachedResultUrl": "https://airtable.com/appqsB3uTY5OaVKoZ"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblexZ5J3XBo8zmJ2",
+          "mode": "list",
+          "cachedResultName": "test_sheet",
+          "cachedResultUrl": "https://airtable.com/appqsB3uTY5OaVKoZ/tblexZ5J3XBo8zmJ2"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.data[0].profile.name }}",
+            "checkins": "={{ $json.count }}",
+            "notes": "="
+          },
+          "matchingColumns": [
+            "Name"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "notes",
+              "displayName": "notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "checkins",
+              "displayName": "checkins",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "last_check_in_date",
+              "displayName": "last_check_in_date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Todo",
+                  "value": "Todo"
+                },
+                {
+                  "name": "In progress",
+                  "value": "In progress"
+                },
+                {
+                  "name": "Done",
+                  "value": "Done"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        920,
+        60
+      ],
+      "id": "c6c3bbcd-e06b-428d-9d19-3df363a3869d",
+      "name": "airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "gU57ziMkqkyedJSE",
+          "name": "OneTap Airtable"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "get_profiles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_profiles": {
+      "main": [
+        [
+          {
+            "node": "loop_profiles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "loop_profiles": {
+      "main": [
+        [],
+        [
+          {
+            "node": "get_check_ins",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_check_ins": {
+      "main": [
+        [
+          {
+            "node": "airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "airtable": {
+      "main": [
+        [
+          {
+            "node": "loop_profiles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a221dae4-1550-47ba-9243-290eb7aa7cf2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "94b02ed700f01d072548cbf96a31533b414503b94522a6f14f6dcc0b99cf4b0f"
+  },
+  "id": "5ZTCq8Sk3jFvlzLB",
+  "tags": []
+}

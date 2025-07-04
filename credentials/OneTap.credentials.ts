@@ -40,7 +40,7 @@ export class OneTap implements ICredentialType {
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: 'https://api-beta.onetapcheckin.com',
-			url: '/api/public/',
+			url: '/api/public/me',
 		},
 	};
 }

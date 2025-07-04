@@ -247,6 +247,37 @@ Register and manage webhooks:
 }
 ```
 
+## Example Workflows
+
+### Check-in Analytics with Airtable Integration
+
+We've included a complete example workflow that demonstrates how to build a powerful check-in analytics system using OneTap and Airtable:
+
+**📁 [Example Workflow](./examples/example_n8n_workflow.json)**
+
+This workflow:
+1. **Fetches all profiles** from your OneTap account using your API key
+2. **Loops through each profile** to get the number of check-ins performed
+3. **Updates an Airtable sheet** with the check-in analytics data
+
+**Key Features:**
+- **Manual Trigger**: Currently triggered manually, but easily configurable for automation
+- **Scheduled Execution**: Can be automated to run on a schedule (daily, weekly, etc.)
+- **Webhook Integration**: For advanced setups, connect to webhooks for real-time updates when check-ins happen
+- **Analytics Dashboard**: Creates a comprehensive view of check-in activity in Airtable
+
+**Use Cases:**
+- Track employee attendance and check-in frequency
+- Monitor event participation rates
+- Generate check-in reports for compliance
+- Create automated attendance dashboards
+
+To use this workflow:
+1. Import the JSON file into your n8n instance
+2. Configure your OneTap API credentials
+3. Set up your Airtable connection
+4. Customize the schedule or webhook triggers as needed
+
 ## Advanced Features
 
 ### Custom Fields Support
