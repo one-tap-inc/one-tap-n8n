@@ -10,6 +10,7 @@ export class OneTapWebhookManager implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'OneTap Webhook Manager',
 		name: 'onetapWebhookManager',
+		icon: 'file:onetap.svg',
 		group: ['transform'],
 		version: 1,
 		description: 'Register and manage webhooks with OneTap',

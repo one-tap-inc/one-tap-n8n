@@ -5,6 +5,8 @@
 
 set -e  # Exit on any error
 
+echo "🔨 Using node version: $(node -v)"
+
 echo "🔨 Building n8n integration project..."
 
 # Navigate to project directory

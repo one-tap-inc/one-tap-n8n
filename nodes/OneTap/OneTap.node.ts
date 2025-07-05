@@ -10,6 +10,7 @@ export class OneTap implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'OneTap',
 		name: 'onetap',
+		icon: 'file:onetap.svg',
 		group: ['marketing'],
 		version: 1,
 		description: 'Manage visitors, check-ins, and attendance with OneTap',

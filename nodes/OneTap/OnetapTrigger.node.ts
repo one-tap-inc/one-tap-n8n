@@ -15,6 +15,7 @@ export class OneTapTrigger implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'OneTap Trigger',
 		name: 'onetapTrigger',
+		icon: 'file:onetap.svg',
 		group: ['trigger'],
 		version: 1,
 		description: 'Listen for OneTap events like check-ins, check-outs, and new participants',
