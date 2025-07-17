@@ -30,8 +30,19 @@ cd /Users/karsh/.n8n
 
 echo "📁 Current directory: $(pwd)"
 
+# Check if n8n is installed
+echo "🔍 Checking if n8n is installed..."
+if ! command -v n8n &> /dev/null; then
+    echo "❌ Error: n8n is not installed or not found in PATH"
+    echo "Please install n8n first by running: npm install -g n8n"
+    exit 1
+fi
+
+echo "✅ n8n found: $(which n8n)"
+
 # Start n8n with debug logging
 echo "🚀 Starting n8n with debug logging..."
+echo "🔓 Running n8n without authentication (open access)"
 echo "⚠️  Press Ctrl+C to stop n8n"
 echo ""
 

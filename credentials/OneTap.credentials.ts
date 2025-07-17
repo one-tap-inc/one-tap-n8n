@@ -32,6 +32,7 @@ export class OneTap implements ICredentialType {
 		properties: {
 			headers: {
 				'X-API-Key': '={{ $credentials.apiKey }}',
+				'x-sourceapp': 'n8n-integration',
 			},
 		},
 	};
