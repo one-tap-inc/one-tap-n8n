@@ -635,7 +635,8 @@ export class OneTap implements INodeType {
 				name: 'avatarFile',
 				type: 'string',
 				default: '',
-				description: 'Avatar image file (base64 encoded or binary data property from previous node)',
+				description:
+					'Avatar image file (base64 encoded or binary data property from previous node)',
 				displayOptions: {
 					show: {
 						resource: ['profile'],
@@ -1616,7 +1617,15 @@ export class OneTap implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['participants'],
-						operation: ['getSingle', 'update', 'delete', 'checkIn', 'checkOut', 'undoCheckIn', 'undoCheckOut'],
+						operation: [
+							'getSingle',
+							'update',
+							'delete',
+							'checkIn',
+							'checkOut',
+							'undoCheckIn',
+							'undoCheckOut',
+						],
 					},
 				},
 			},
@@ -2247,49 +2256,49 @@ export class OneTap implements INodeType {
 								displayName: 'Days',
 								name: 'days',
 								values: [
-							{
-								displayName: 'Friday',
-								name: 'friday',
-								type: 'boolean',
-								default: false,
-							},
-							{
-								displayName: 'Monday',
-								name: 'monday',
-								type: 'boolean',
-								default: false,
-							},
-							{
-								displayName: 'Saturday',
-								name: 'saturday',
-								type: 'boolean',
-								default: false,
-							},
-							{
-								displayName: 'Sunday',
-								name: 'sunday',
-								type: 'boolean',
-								default: false,
-							},
-							{
-								displayName: 'Thursday',
-								name: 'thursday',
-								type: 'boolean',
-								default: false,
-							},
-							{
-								displayName: 'Tuesday',
-								name: 'tuesday',
-								type: 'boolean',
-								default: false,
-							},
-							{
-								displayName: 'Wednesday',
-								name: 'wednesday',
-								type: 'boolean',
-								default: false,
-							},
-						],
+									{
+										displayName: 'Friday',
+										name: 'friday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Monday',
+										name: 'monday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Saturday',
+										name: 'saturday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Sunday',
+										name: 'sunday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Thursday',
+										name: 'thursday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Tuesday',
+										name: 'tuesday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Wednesday',
+										name: 'wednesday',
+										type: 'boolean',
+										default: false,
+									},
+								],
 							},
 						],
 					},
@@ -2588,49 +2597,49 @@ export class OneTap implements INodeType {
 								displayName: 'Days',
 								name: 'days',
 								values: [
-							{
-								displayName: 'Friday',
-								name: 'friday',
-								type: 'boolean',
-								default: false,
-							},
-							{
-								displayName: 'Monday',
-								name: 'monday',
-								type: 'boolean',
-								default: false,
-							},
-							{
-								displayName: 'Saturday',
-								name: 'saturday',
-								type: 'boolean',
-								default: false,
-							},
-							{
-								displayName: 'Sunday',
-								name: 'sunday',
-								type: 'boolean',
-								default: false,
-							},
-							{
-								displayName: 'Thursday',
-								name: 'thursday',
-								type: 'boolean',
-								default: false,
-							},
-							{
-								displayName: 'Tuesday',
-								name: 'tuesday',
-								type: 'boolean',
-								default: false,
-							},
-							{
-								displayName: 'Wednesday',
-								name: 'wednesday',
-								type: 'boolean',
-								default: false,
-							},
-						],
+									{
+										displayName: 'Friday',
+										name: 'friday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Monday',
+										name: 'monday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Saturday',
+										name: 'saturday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Sunday',
+										name: 'sunday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Thursday',
+										name: 'thursday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Tuesday',
+										name: 'tuesday',
+										type: 'boolean',
+										default: false,
+									},
+									{
+										displayName: 'Wednesday',
+										name: 'wednesday',
+										type: 'boolean',
+										default: false,
+									},
+								],
 							},
 						],
 					},
@@ -2651,11 +2660,11 @@ export class OneTap implements INodeType {
 				},
 			},
 			{
-							displayName: 'Delete All',
-			name: 'deleteAll',
-			type: 'boolean',
-			default: false,
-			description: 'Whether to delete all lists for the organization',
+				displayName: 'Delete All',
+				name: 'deleteAll',
+				type: 'boolean',
+				default: false,
+				description: 'Whether to delete all lists for the organization',
 				displayOptions: {
 					show: {
 						resource: ['lists'],
@@ -2726,7 +2735,8 @@ export class OneTap implements INodeType {
 								if (additionalFields.search) queryParams.search = additionalFields.search;
 								if (additionalFields.sortBy) queryParams.sortBy = additionalFields.sortBy;
 								if (additionalFields.sortOrder) queryParams.sortOrder = additionalFields.sortOrder;
-								if (additionalFields.favorite !== undefined) queryParams.favorite = additionalFields.favorite;
+								if (additionalFields.favorite !== undefined)
+									queryParams.favorite = additionalFields.favorite;
 
 								const response = await this.helpers.httpRequestWithAuthentication.call(
 									this,
@@ -2773,7 +2783,8 @@ export class OneTap implements INodeType {
 							if (additionalFields.search) queryParams.search = additionalFields.search;
 							if (additionalFields.sortBy) queryParams.sortBy = additionalFields.sortBy;
 							if (additionalFields.sortOrder) queryParams.sortOrder = additionalFields.sortOrder;
-							if (additionalFields.favorite !== undefined) queryParams.favorite = additionalFields.favorite;
+							if (additionalFields.favorite !== undefined)
+								queryParams.favorite = additionalFields.favorite;
 
 							const response = await this.helpers.httpRequestWithAuthentication.call(
 								this,
@@ -2823,14 +2834,18 @@ export class OneTap implements INodeType {
 							for (const field of customFieldArray) {
 								if (field.name && field.value !== undefined && field.value !== '') {
 									let value = field.value;
-									
+
 									// Convert value based on type
 									switch (field.type) {
 										case 'number':
 											value = parseFloat(field.value);
 											break;
 										case 'boolean':
-											value = field.value === 'true' || field.value === true || field.value === '1' || field.value === 1;
+											value =
+												field.value === 'true' ||
+												field.value === true ||
+												field.value === '1' ||
+												field.value === 1;
 											break;
 										case 'array':
 											try {
@@ -2845,7 +2860,7 @@ export class OneTap implements INodeType {
 										default:
 											value = field.value; // string
 									}
-									
+
 									customFieldsObj[field.name] = value;
 								}
 							}
@@ -2855,15 +2870,11 @@ export class OneTap implements INodeType {
 							}
 						}
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'PUT',
-								url: `https://api-beta.onetapcheckin.com/api/profiles/${profileId}`,
-								body,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'PUT',
+							url: `https://api-beta.onetapcheckin.com/api/profiles/${profileId}`,
+							body,
+						});
 
 						if (response.data) {
 							returnData.push({
@@ -2879,20 +2890,15 @@ export class OneTap implements INodeType {
 					} else if (operation === 'getSingle') {
 						const profileId = this.getNodeParameter('profileId', i) as string;
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'GET',
-								url: `https://api-beta.onetapcheckin.com/api/profiles/${profileId}`,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'GET',
+							url: `https://api-beta.onetapcheckin.com/api/profiles/${profileId}`,
+						});
 
 						returnData.push({
 							json: response.data || response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'create') {
 						const profileName = this.getNodeParameter('profileName', i) as string;
 						const createFields = this.getNodeParameter('createFields', i) as Record<string, any>;
@@ -2912,14 +2918,18 @@ export class OneTap implements INodeType {
 									for (const field of customFieldArray) {
 										if (field.name && field.value !== undefined && field.value !== '') {
 											let fieldValue = field.value;
-											
+
 											// Convert value based on type
 											switch (field.type) {
 												case 'number':
 													fieldValue = parseFloat(field.value);
 													break;
 												case 'boolean':
-													fieldValue = field.value === 'true' || field.value === true || field.value === '1' || field.value === 1;
+													fieldValue =
+														field.value === 'true' ||
+														field.value === true ||
+														field.value === '1' ||
+														field.value === 1;
 													break;
 												case 'array':
 													try {
@@ -2934,7 +2944,7 @@ export class OneTap implements INodeType {
 												default:
 													fieldValue = field.value; // string
 											}
-											
+
 											customFieldsObj[field.name] = fieldValue;
 										}
 									}
@@ -2948,115 +2958,86 @@ export class OneTap implements INodeType {
 							}
 						});
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'POST',
-								url: 'https://api-beta.onetapcheckin.com/api/profiles',
-								body,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'POST',
+							url: 'https://api-beta.onetapcheckin.com/api/profiles',
+							body,
+						});
 
 						returnData.push({
 							json: response.data || response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'delete') {
 						const profileId = this.getNodeParameter('profileId', i) as string;
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'DELETE',
-								url: `https://api-beta.onetapcheckin.com/api/profiles/${profileId}`,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'DELETE',
+							url: `https://api-beta.onetapcheckin.com/api/profiles/${profileId}`,
+						});
 
 						returnData.push({
 							json: response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'deleteMultiple') {
 						const profileIds = this.getNodeParameter('profileIds', i) as string;
 
 						const body = {
-							profileIds: profileIds.split(',').map(id => id.trim()),
+							profileIds: profileIds.split(',').map((id) => id.trim()),
 						};
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'DELETE',
-								url: 'https://api-beta.onetapcheckin.com/api/profiles',
-								body,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'DELETE',
+							url: 'https://api-beta.onetapcheckin.com/api/profiles',
+							body,
+						});
 
 						returnData.push({
 							json: response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'updateAvatar') {
 						const profileId = this.getNodeParameter('profileId', i) as string;
 						const avatarFile = this.getNodeParameter('avatarFile', i) as string;
 
 						// Note: This is a simplified implementation. In practice, you'd need to handle
 						// multipart/form-data file uploads properly with the actual file content
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'PUT',
-								url: `https://api-beta.onetapcheckin.com/api/profiles/${profileId}/avatar`,
-								headers: {
-									'Content-Type': 'multipart/form-data',
-								},
-								body: {
-									avatar: avatarFile,
-								},
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'PUT',
+							url: `https://api-beta.onetapcheckin.com/api/profiles/${profileId}/avatar`,
+							headers: {
+								'Content-Type': 'multipart/form-data',
 							},
-						);
+							body: {
+								avatar: avatarFile,
+							},
+						});
 
 						returnData.push({
 							json: response.data || response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'getCustomFields') {
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'GET',
-								url: 'https://api-beta.onetapcheckin.com/api/profiles/customFields',
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'GET',
+							url: 'https://api-beta.onetapcheckin.com/api/profiles/customFields',
+						});
 
 						returnData.push({
 							json: response.data || response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'findByCheckInCode') {
 						const checkInCode = this.getNodeParameter('checkInCode', i) as string;
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'GET',
-								url: 'https://api-beta.onetapcheckin.com/api/profiles/checkInCode',
-								qs: {
-									checkInCode: checkInCode,
-								},
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'GET',
+							url: 'https://api-beta.onetapcheckin.com/api/profiles/checkInCode',
+							qs: {
+								checkInCode: checkInCode,
 							},
-						);
+						});
 
 						returnData.push({
 							json: response.data || response,
@@ -3078,19 +3059,17 @@ export class OneTap implements INodeType {
 
 						if (profileId) queryParams.profileId = profileId;
 						if (participantId) queryParams.participantId = participantId;
-						if (additionalFields.passportType) queryParams.passportType = additionalFields.passportType;
+						if (additionalFields.passportType)
+							queryParams.passportType = additionalFields.passportType;
 						if (additionalFields.page !== undefined) queryParams.page = additionalFields.page;
-						if (additionalFields.pageSize !== undefined) queryParams.pageSize = additionalFields.pageSize;
+						if (additionalFields.pageSize !== undefined)
+							queryParams.pageSize = additionalFields.pageSize;
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'GET',
-								url: 'https://api-beta.onetapcheckin.com/api/passports',
-								qs: queryParams,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'GET',
+							url: 'https://api-beta.onetapcheckin.com/api/passports',
+							qs: queryParams,
+						});
 
 						if (response.data && Array.isArray(response.data)) {
 							for (const passport of response.data) {
@@ -3105,24 +3084,18 @@ export class OneTap implements INodeType {
 								pairedItem: i,
 							});
 						}
-
 					} else if (operation === 'getByParticipant') {
 						const participantId = this.getNodeParameter('participantId', i) as string;
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'GET',
-								url: `https://api-beta.onetapcheckin.com/api/passports/participants/${participantId}`,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'GET',
+							url: `https://api-beta.onetapcheckin.com/api/passports/participants/${participantId}`,
+						});
 
 						returnData.push({
 							json: response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'getByProfile') {
 						const profileId = this.getNodeParameter('profileId', i) as string;
 						const customBarcode = this.getNodeParameter('customBarcode', i) as boolean;
@@ -3130,36 +3103,27 @@ export class OneTap implements INodeType {
 						const queryParams: Record<string, any> = {};
 						if (customBarcode) queryParams.customBarcode = '1';
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'GET',
-								url: `https://api-beta.onetapcheckin.com/api/passports/profiles/${profileId}`,
-								qs: queryParams,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'GET',
+							url: `https://api-beta.onetapcheckin.com/api/passports/profiles/${profileId}`,
+							qs: queryParams,
+						});
 
 						returnData.push({
 							json: response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'getGroups') {
 						const limit = this.getNodeParameter('limit', i) as number;
 
 						const queryParams: Record<string, any> = {};
 						if (limit) queryParams.limit = limit;
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'GET',
-								url: 'https://api-beta.onetapcheckin.com/api/passports/groups',
-								qs: queryParams,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'GET',
+							url: 'https://api-beta.onetapcheckin.com/api/passports/groups',
+							qs: queryParams,
+						});
 
 						if (response.data && Array.isArray(response.data)) {
 							for (const passport of response.data) {
@@ -3174,24 +3138,18 @@ export class OneTap implements INodeType {
 								pairedItem: i,
 							});
 						}
-
 					} else if (operation === 'delete') {
 						const passportId = this.getNodeParameter('passportId', i) as string;
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'DELETE',
-								url: `https://api-beta.onetapcheckin.com/api/passports/${passportId}`,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'DELETE',
+							url: `https://api-beta.onetapcheckin.com/api/passports/${passportId}`,
+						});
 
 						returnData.push({
 							json: response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'send') {
 						const passportId = this.getNodeParameter('passportId', i) as string;
 						const channel = this.getNodeParameter('channel', i) as string;
@@ -3202,15 +3160,11 @@ export class OneTap implements INodeType {
 							destination,
 						};
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'POST',
-								url: `https://api-beta.onetapcheckin.com/api/passports/${passportId}/send`,
-								body,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'POST',
+							url: `https://api-beta.onetapcheckin.com/api/passports/${passportId}/send`,
+							body,
+						});
 
 						returnData.push({
 							json: response,
@@ -3251,25 +3205,35 @@ export class OneTap implements INodeType {
 								};
 
 								if (additionalFields.sortField) queryParams.sortField = additionalFields.sortField;
-								if (additionalFields.sortDirection) queryParams.sortDirection = additionalFields.sortDirection;
-								if (additionalFields.searchText) queryParams.searchText = additionalFields.searchText;
-								if (additionalFields.searchType) queryParams.searchType = additionalFields.searchType;
-								if (additionalFields.filterField) queryParams.filterField = additionalFields.filterField;
+								if (additionalFields.sortDirection)
+									queryParams.sortDirection = additionalFields.sortDirection;
+								if (additionalFields.searchText)
+									queryParams.searchText = additionalFields.searchText;
+								if (additionalFields.searchType)
+									queryParams.searchType = additionalFields.searchType;
+								if (additionalFields.filterField)
+									queryParams.filterField = additionalFields.filterField;
 								if (additionalFields.equalTo) queryParams.equalTo = additionalFields.equalTo;
-								if (additionalFields.notEqualTo) queryParams.notEqualTo = additionalFields.notEqualTo;
-								if (additionalFields.greaterThan) queryParams.greaterThan = additionalFields.greaterThan;
+								if (additionalFields.notEqualTo)
+									queryParams.notEqualTo = additionalFields.notEqualTo;
+								if (additionalFields.greaterThan)
+									queryParams.greaterThan = additionalFields.greaterThan;
 								if (additionalFields.lessThan) queryParams.lessThan = additionalFields.lessThan;
 								if (additionalFields.contains) queryParams.contains = additionalFields.contains;
 								// Convert dates to Unix timestamps
 								if (additionalFields.greaterThanDate) {
-									queryParams.greaterThanDate = Math.floor(new Date(additionalFields.greaterThanDate).getTime() / 1000);
+									queryParams.greaterThanDate = Math.floor(
+										new Date(additionalFields.greaterThanDate).getTime() / 1000,
+									);
 								}
 								if (additionalFields.lessThanDate) {
-									queryParams.lessThanDate = Math.floor(new Date(additionalFields.lessThanDate).getTime() / 1000);
+									queryParams.lessThanDate = Math.floor(
+										new Date(additionalFields.lessThanDate).getTime() / 1000,
+									);
 								}
 
 								queryParams.profileId = this.getNodeParameter('profileId', i);
-								
+
 								const response = await this.helpers.httpRequestWithAuthentication.call(
 									this,
 									'onetap',
@@ -3280,7 +3244,11 @@ export class OneTap implements INodeType {
 									},
 								);
 
-								if (response.data && response.data.passports && Array.isArray(response.data.passports)) {
+								if (
+									response.data &&
+									response.data.passports &&
+									Array.isArray(response.data.passports)
+								) {
 									allPunchPasses = allPunchPasses.concat(response.data.passports);
 									// Check if we got fewer results than requested, indicating last page
 									hasMoreData = response.data.passports.length === pageSize;
@@ -3321,21 +3289,28 @@ export class OneTap implements INodeType {
 							};
 
 							if (additionalFields.sortField) queryParams.sortField = additionalFields.sortField;
-							if (additionalFields.sortDirection) queryParams.sortDirection = additionalFields.sortDirection;
+							if (additionalFields.sortDirection)
+								queryParams.sortDirection = additionalFields.sortDirection;
 							if (additionalFields.searchText) queryParams.searchText = additionalFields.searchText;
 							if (additionalFields.searchType) queryParams.searchType = additionalFields.searchType;
-							if (additionalFields.filterField) queryParams.filterField = additionalFields.filterField;
+							if (additionalFields.filterField)
+								queryParams.filterField = additionalFields.filterField;
 							if (additionalFields.equalTo) queryParams.equalTo = additionalFields.equalTo;
 							if (additionalFields.notEqualTo) queryParams.notEqualTo = additionalFields.notEqualTo;
-							if (additionalFields.greaterThan) queryParams.greaterThan = additionalFields.greaterThan;
+							if (additionalFields.greaterThan)
+								queryParams.greaterThan = additionalFields.greaterThan;
 							if (additionalFields.lessThan) queryParams.lessThan = additionalFields.lessThan;
 							if (additionalFields.contains) queryParams.contains = additionalFields.contains;
 							// Convert dates to Unix timestamps
 							if (additionalFields.greaterThanDate) {
-								queryParams.greaterThanDate = Math.floor(new Date(additionalFields.greaterThanDate).getTime() / 1000);
+								queryParams.greaterThanDate = Math.floor(
+									new Date(additionalFields.greaterThanDate).getTime() / 1000,
+								);
 							}
 							if (additionalFields.lessThanDate) {
-								queryParams.lessThanDate = Math.floor(new Date(additionalFields.lessThanDate).getTime() / 1000);
+								queryParams.lessThanDate = Math.floor(
+									new Date(additionalFields.lessThanDate).getTime() / 1000,
+								);
 							}
 
 							queryParams.profileId = this.getNodeParameter('profileId', i);
@@ -3350,7 +3325,11 @@ export class OneTap implements INodeType {
 								},
 							);
 
-							if (response.data && response.data.passports && Array.isArray(response.data.passports)) {
+							if (
+								response.data &&
+								response.data.passports &&
+								Array.isArray(response.data.passports)
+							) {
 								for (const punchPass of response.data.passports) {
 									returnData.push({
 										json: punchPass,
@@ -3390,33 +3369,36 @@ export class OneTap implements INodeType {
 						}
 
 						if (additionalFields.sortField) queryParams.sortField = additionalFields.sortField;
-						if (additionalFields.sortDirection) queryParams.sortDirection = additionalFields.sortDirection;
+						if (additionalFields.sortDirection)
+							queryParams.sortDirection = additionalFields.sortDirection;
 						if (additionalFields.searchText) queryParams.searchText = additionalFields.searchText;
 						if (additionalFields.searchType) queryParams.searchType = additionalFields.searchType;
-						if (additionalFields.filterField) queryParams.filterField = additionalFields.filterField;
+						if (additionalFields.filterField)
+							queryParams.filterField = additionalFields.filterField;
 						if (additionalFields.equalTo) queryParams.equalTo = additionalFields.equalTo;
 						if (additionalFields.notEqualTo) queryParams.notEqualTo = additionalFields.notEqualTo;
-						if (additionalFields.greaterThan) queryParams.greaterThan = additionalFields.greaterThan;
+						if (additionalFields.greaterThan)
+							queryParams.greaterThan = additionalFields.greaterThan;
 						if (additionalFields.lessThan) queryParams.lessThan = additionalFields.lessThan;
 						if (additionalFields.contains) queryParams.contains = additionalFields.contains;
-						
+
 						// Convert dates to Unix timestamps
 						if (additionalFields.greaterThanDate) {
-							queryParams.greaterThanDate = Math.floor(new Date(additionalFields.greaterThanDate).getTime() / 1000);
+							queryParams.greaterThanDate = Math.floor(
+								new Date(additionalFields.greaterThanDate).getTime() / 1000,
+							);
 						}
 						if (additionalFields.lessThanDate) {
-							queryParams.lessThanDate = Math.floor(new Date(additionalFields.lessThanDate).getTime() / 1000);
+							queryParams.lessThanDate = Math.floor(
+								new Date(additionalFields.lessThanDate).getTime() / 1000,
+							);
 						}
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'GET',
-								url: `https://api-beta.onetapcheckin.com/api/passports/punch-passports/${passportId}`,
-								qs: queryParams,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'GET',
+							url: `https://api-beta.onetapcheckin.com/api/passports/punch-passports/${passportId}`,
+							qs: queryParams,
+						});
 
 						if (response.data) {
 							returnData.push({
@@ -3429,7 +3411,6 @@ export class OneTap implements INodeType {
 								pairedItem: i,
 							});
 						}
-
 					} else if (operation === 'create') {
 						const profileId = this.getNodeParameter('profileId', i) as string;
 						const startsAt = this.getNodeParameter('startsAt', i) as string;
@@ -3452,21 +3433,16 @@ export class OneTap implements INodeType {
 							}
 						});
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'POST',
-								url: 'https://api-beta.onetapcheckin.com/api/passports/punch-passports',
-								body,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'POST',
+							url: 'https://api-beta.onetapcheckin.com/api/passports/punch-passports',
+							body,
+						});
 
 						returnData.push({
 							json: response.data || response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'update') {
 						const passportId = this.getNodeParameter('passportId', i) as string;
 						const updateFields = this.getNodeParameter('updateFields', i) as Record<string, any>;
@@ -3477,28 +3453,23 @@ export class OneTap implements INodeType {
 						Object.entries(updateFields).forEach(([key, value]) => {
 							if (value !== undefined && value !== '' && value !== null) {
 								if (key === 'checkInIds') {
-									body[key] = (value as string).split(',').map(id => id.trim());
+									body[key] = (value as string).split(',').map((id) => id.trim());
 								} else {
 									body[key] = value;
 								}
 							}
 						});
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'PUT',
-								url: `https://api-beta.onetapcheckin.com/api/passports/punch-passports/${passportId}`,
-								body,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'PUT',
+							url: `https://api-beta.onetapcheckin.com/api/passports/punch-passports/${passportId}`,
+							body,
+						});
 
 						returnData.push({
 							json: response.data || response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'redeem') {
 						const passportId = this.getNodeParameter('passportId', i) as string;
 						const checkInId = this.getNodeParameter('checkInId', i) as string;
@@ -3507,15 +3478,11 @@ export class OneTap implements INodeType {
 							checkInId,
 						};
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'POST',
-								url: `https://api-beta.onetapcheckin.com/api/passports/punch-passports/${passportId}/redeem`,
-								body,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'POST',
+							url: `https://api-beta.onetapcheckin.com/api/passports/punch-passports/${passportId}/redeem`,
+							body,
+						});
 
 						returnData.push({
 							json: response.data || response,
@@ -3529,16 +3496,19 @@ export class OneTap implements INodeType {
 						const profileId = this.getNodeParameter('profileId', i) as string;
 						const profileIds = this.getNodeParameter('profileIds', i) as string;
 						const addAllProfile = this.getNodeParameter('addAllProfile', i) as boolean;
-						const additionalFields = this.getNodeParameter('additionalFields', i) as Record<string, any>;
+						const additionalFields = this.getNodeParameter('additionalFields', i) as Record<
+							string,
+							any
+						>;
 
 						// Build the request body
 						const body: Record<string, any> = {};
 
 						// Required fields - at least one must be provided
 						if (listId) body.listId = listId;
-						if (listIds) body.listIds = listIds.split(',').map(id => id.trim());
+						if (listIds) body.listIds = listIds.split(',').map((id) => id.trim());
 						if (profileId) body.profileId = profileId;
-						if (profileIds) body.profileIds = profileIds.split(',').map(id => id.trim());
+						if (profileIds) body.profileIds = profileIds.split(',').map((id) => id.trim());
 						if (addAllProfile) body.addAllProfile = addAllProfile;
 
 						// Add optional fields if they have values
@@ -3556,38 +3526,28 @@ export class OneTap implements INodeType {
 							}
 						});
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'POST',
-								url: 'https://api-beta.onetapcheckin.com/api/participants',
-								body,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'POST',
+							url: 'https://api-beta.onetapcheckin.com/api/participants',
+							body,
+						});
 
 						returnData.push({
 							json: response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'getSingle') {
 						const participantId = this.getNodeParameter('participantId', i) as string;
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'GET',
-								url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}`,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'GET',
+							url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}`,
+						});
 
 						returnData.push({
 							json: response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'update') {
 						const participantId = this.getNodeParameter('participantId', i) as string;
 						const updateFields = this.getNodeParameter('updateFields', i) as Record<string, any>;
@@ -3609,21 +3569,16 @@ export class OneTap implements INodeType {
 							}
 						});
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'PUT',
-								url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}`,
-								body,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'PUT',
+							url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}`,
+							body,
+						});
 
 						returnData.push({
 							json: response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'getAll') {
 						const returnAll = this.getNodeParameter('returnAll', i) as boolean;
 
@@ -3635,7 +3590,10 @@ export class OneTap implements INodeType {
 							const limit = 100; // Use reasonable default for pagination
 
 							while (hasMoreData) {
-								const additionalFields = this.getNodeParameter('additionalFields', i) as Record<string, any>;
+								const additionalFields = this.getNodeParameter('additionalFields', i) as Record<
+									string,
+									any
+								>;
 
 								// Build query parameters
 								const queryParams: Record<string, any> = {
@@ -3666,7 +3624,7 @@ export class OneTap implements INodeType {
 
 								const participants = Array.isArray(response) ? response : [response];
 								allParticipants = allParticipants.concat(participants);
-								
+
 								// Check if we got fewer results than requested, indicating last page
 								hasMoreData = participants.length === limit;
 								currentSkip += limit;
@@ -3681,7 +3639,10 @@ export class OneTap implements INodeType {
 							}
 						} else {
 							// Single page request
-							const additionalFields = this.getNodeParameter('additionalFields', i) as Record<string, any>;
+							const additionalFields = this.getNodeParameter('additionalFields', i) as Record<
+								string,
+								any
+							>;
 
 							// Build query parameters
 							const queryParams: Record<string, any> = {
@@ -3718,7 +3679,6 @@ export class OneTap implements INodeType {
 								});
 							}
 						}
-
 					} else if (operation === 'delete') {
 						const participantId = this.getNodeParameter('participantId', i) as string;
 						const listId = this.getNodeParameter('listId', i) as string;
@@ -3726,21 +3686,16 @@ export class OneTap implements INodeType {
 						const queryParams: Record<string, any> = {};
 						if (listId) queryParams.listId = listId;
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'DELETE',
-								url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}`,
-								qs: queryParams,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'DELETE',
+							url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}`,
+							qs: queryParams,
+						});
 
 						returnData.push({
 							json: response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'checkIn') {
 						const participantId = this.getNodeParameter('participantId', i) as string;
 						const checkFields = this.getNodeParameter('checkFields', i) as Record<string, any>;
@@ -3760,21 +3715,16 @@ export class OneTap implements INodeType {
 							}
 						});
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'POST',
-								url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}/checkin`,
-								body,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'POST',
+							url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}/checkin`,
+							body,
+						});
 
 						returnData.push({
 							json: response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'checkOut') {
 						const participantId = this.getNodeParameter('participantId', i) as string;
 						const checkFields = this.getNodeParameter('checkFields', i) as Record<string, any>;
@@ -3794,49 +3744,35 @@ export class OneTap implements INodeType {
 							}
 						});
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'POST',
-								url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}/checkout`,
-								body,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'POST',
+							url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}/checkout`,
+							body,
+						});
 
 						returnData.push({
 							json: response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'undoCheckIn') {
 						const participantId = this.getNodeParameter('participantId', i) as string;
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'POST',
-								url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}/undoCheckin`,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'POST',
+							url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}/undoCheckin`,
+						});
 
 						returnData.push({
 							json: response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'undoCheckOut') {
 						const participantId = this.getNodeParameter('participantId', i) as string;
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'POST',
-								url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}/undoCheckout`,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'POST',
+							url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}/undoCheckout`,
+						});
 
 						returnData.push({
 							json: response,
@@ -3847,7 +3783,10 @@ export class OneTap implements INodeType {
 					if (operation === 'create') {
 						const listName = this.getNodeParameter('listName', i) as string;
 						const listDate = this.getNodeParameter('listDate', i) as string;
-						const additionalFields = this.getNodeParameter('additionalFields', i) as Record<string, any>;
+						const additionalFields = this.getNodeParameter('additionalFields', i) as Record<
+							string,
+							any
+						>;
 
 						// Build the request body
 						const body: Record<string, any> = {
@@ -3868,21 +3807,16 @@ export class OneTap implements INodeType {
 							}
 						});
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'POST',
-								url: 'https://api-beta.onetapcheckin.com/api/lists',
-								body,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'POST',
+							url: 'https://api-beta.onetapcheckin.com/api/lists',
+							body,
+						});
 
 						returnData.push({
 							json: response,
 							pairedItem: i,
 						});
-
 					} else if (operation === 'getAll') {
 						const returnAll = this.getNodeParameter('returnAll', i) as boolean;
 
@@ -3894,7 +3828,10 @@ export class OneTap implements INodeType {
 							const pageSize = 50; // Use reasonable default for pagination
 
 							while (hasMoreData) {
-								const additionalFields = this.getNodeParameter('additionalFields', i) as Record<string, any>;
+								const additionalFields = this.getNodeParameter('additionalFields', i) as Record<
+									string,
+									any
+								>;
 
 								// Build query parameters
 								const queryParams: Record<string, any> = {
@@ -3925,7 +3862,7 @@ export class OneTap implements INodeType {
 
 								const lists = Array.isArray(response) ? response : [response];
 								allLists = allLists.concat(lists);
-								
+
 								// Check if we got fewer results than requested, indicating last page
 								hasMoreData = lists.length === pageSize;
 								currentPage++;
@@ -3940,7 +3877,10 @@ export class OneTap implements INodeType {
 							}
 						} else {
 							// Single page request
-							const additionalFields = this.getNodeParameter('additionalFields', i) as Record<string, any>;
+							const additionalFields = this.getNodeParameter('additionalFields', i) as Record<
+								string,
+								any
+							>;
 
 							// Build query parameters
 							const queryParams: Record<string, any> = {
@@ -3980,14 +3920,10 @@ export class OneTap implements INodeType {
 					} else if (operation === 'getSingle') {
 						const listId = this.getNodeParameter('listId', i) as string;
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'GET',
-								url: `https://api-beta.onetapcheckin.com/api/lists/${listId}`,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'GET',
+							url: `https://api-beta.onetapcheckin.com/api/lists/${listId}`,
+						});
 
 						returnData.push({
 							json: response,
@@ -4012,15 +3948,11 @@ export class OneTap implements INodeType {
 							}
 						});
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'PUT',
-								url: `https://api-beta.onetapcheckin.com/api/lists/${listId}`,
-								body,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'PUT',
+							url: `https://api-beta.onetapcheckin.com/api/lists/${listId}`,
+							body,
+						});
 
 						returnData.push({
 							json: response,
@@ -4029,14 +3961,10 @@ export class OneTap implements INodeType {
 					} else if (operation === 'deleteSingle') {
 						const listId = this.getNodeParameter('listId', i) as string;
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'DELETE',
-								url: `https://api-beta.onetapcheckin.com/api/lists/${listId}`,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'DELETE',
+							url: `https://api-beta.onetapcheckin.com/api/lists/${listId}`,
+						});
 
 						returnData.push({
 							json: response,
@@ -4048,22 +3976,18 @@ export class OneTap implements INodeType {
 
 						// Build the request body
 						const body: Record<string, any> = {};
-						
+
 						if (deleteAll) {
 							body.deleteAll = true;
 						} else if (listIds) {
-							body.listIds = listIds.split(',').map(id => id.trim());
+							body.listIds = listIds.split(',').map((id) => id.trim());
 						}
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'DELETE',
-								url: 'https://api-beta.onetapcheckin.com/api/lists',
-								body,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'DELETE',
+							url: 'https://api-beta.onetapcheckin.com/api/lists',
+							body,
+						});
 
 						returnData.push({
 							json: response,
@@ -4071,7 +3995,10 @@ export class OneTap implements INodeType {
 						});
 					} else if (operation === 'getListSurveyData') {
 						const listId = this.getNodeParameter('listId', i) as string;
-						const additionalFields = this.getNodeParameter('additionalFields', i) as Record<string, any>;
+						const additionalFields = this.getNodeParameter('additionalFields', i) as Record<
+							string,
+							any
+						>;
 
 						// Build query parameters
 						const queryParams: Record<string, any> = {};
@@ -4083,15 +4010,11 @@ export class OneTap implements INodeType {
 							}
 						});
 
-						const response = await this.helpers.httpRequestWithAuthentication.call(
-							this,
-							'onetap',
-							{
-								method: 'GET',
-								url: `https://api-beta.onetapcheckin.com/api/lists/${listId}/survey`,
-								qs: queryParams,
-							},
-						);
+						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+							method: 'GET',
+							url: `https://api-beta.onetapcheckin.com/api/lists/${listId}/survey`,
+							qs: queryParams,
+						});
 
 						returnData.push({
 							json: response,
