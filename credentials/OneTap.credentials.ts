@@ -21,7 +21,7 @@ export class OneTap implements ICredentialType {
 			type: 'string',
 			typeOptions: { password: true },
 			default: '',
-		}
+		},
 	];
 
 	// This credential is currently not used by any node directly

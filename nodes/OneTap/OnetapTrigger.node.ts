@@ -11,7 +11,7 @@ import type {
 
 import { NodeConnectionType } from 'n8n-workflow';
 
-export class OneTapTrigger implements INodeType {
+export class OnetapTrigger implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'OneTap Trigger',
 		name: 'onetapTrigger',
@@ -50,11 +50,6 @@ export class OneTapTrigger implements INodeType {
 						name: 'Production',
 						value: 'production',
 						description: 'Use production OneTap API server',
-					},
-					{
-						name: 'Staging',
-						value: 'staging',
-						description: 'Use staging/development OneTap API server',
 					},
 				],
 				default: 'production',
@@ -162,15 +157,15 @@ export class OneTapTrigger implements INodeType {
 						default: [],
 						description: 'Filter by check-in/check-out method',
 						options: [
-							{ name: 'TAP', value: 'TAP' },
-							{ name: 'QR', value: 'QR' },
-							{ name: 'Manual', value: 'MANUAL' },
-							{ name: 'Kiosk', value: 'KIOSK' },
-							{ name: 'SMS', value: 'SMS' },
-							{ name: 'Email', value: 'EMAIL' },
-							{ name: 'Voice', value: 'VOICE' },
-							{ name: 'Browser', value: 'BROWSER' },
-							{ name: 'Mobile App', value: 'MOBILE_APP' },
+							{ name: 'Browser', value: 'browser' },
+							{ name: 'Email', value: 'email' },
+							{ name: 'Kiosk', value: 'kiosk' },
+							{ name: 'Manual', value: 'manual' },
+							{ name: 'Mobile App', value: 'mobile_app' },
+							{ name: 'QR', value: 'qr' },
+							{ name: 'SMS', value: 'sms' },
+							{ name: 'TAP', value: 'tap' },
+							{ name: 'Voice', value: 'voice' },
 						],
 						displayOptions: {
 							show: {
@@ -198,13 +193,11 @@ export class OneTapTrigger implements INodeType {
 
 		// Get environment and set base URL accordingly
 		const environment = this.getNodeParameter('environment') as string;
-		const baseURL = environment === 'staging' 
-			? 'http://localhost:1337' 
-			: 'https://api-beta.onetapcheckin.com';
+		const baseURL = 'https://api-beta.onetapcheckin.com';
 
 		const now = Math.floor(Date.now() / 1000);
 		const pollInterval = this.getNodeParameter('pollInterval') as number;
-		const sinceTimestamp = now - (pollInterval * 60); // Convert minutes to seconds
+		const sinceTimestamp = now - pollInterval * 60; // Convert minutes to seconds
 
 		let events: any[] = [];
 
@@ -231,32 +224,25 @@ export class OneTapTrigger implements INodeType {
 				if (listId) queryParams.listId = listId;
 				if (profileId) queryParams.profileId = profileId;
 
-				const response = await this.helpers.httpRequestWithAuthentication.call(
-					this,
-					'onetap',
-					{
-						method: 'GET',
-						url: `${baseURL}/api/participants`,
-						qs: queryParams,
-					},
-				);
+				const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+					method: 'GET',
+					url: `${baseURL}/api/participants`,
+					qs: queryParams,
+				});
 
 				events = Array.isArray(response) ? response : [response];
 
 				// Apply additional filters
 				if (additionalFilters.method && additionalFilters.method.length > 0) {
 					const methodField = triggerOn === 'checkin' ? 'checkInMethod' : 'checkOutMethod';
-					events = events.filter(event => 
-						additionalFilters.method.includes(event[methodField])
-					);
+					events = events.filter((event) => additionalFilters.method.includes(event[methodField]));
 				}
 
 				if (additionalFilters.source) {
-					events = events.filter(event => 
-						event.source && event.source.includes(additionalFilters.source)
+					events = events.filter(
+						(event) => event.source && event.source.includes(additionalFilters.source),
 					);
 				}
-
 			} else if (triggerOn === 'participant') {
 				// Poll participants API for new participants
 				const queryParams: Record<string, any> = {
@@ -268,28 +254,25 @@ export class OneTapTrigger implements INodeType {
 
 				if (listId) queryParams.listId = listId;
 
-				const response = await this.helpers.httpRequestWithAuthentication.call(
-					this,
-					'onetap',
-					{
-						method: 'GET',
-						url: `${baseURL}/api/participants`,
-						qs: queryParams,
-					},
-				);
+				const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+					method: 'GET',
+					url: `${baseURL}/api/participants`,
+					qs: queryParams,
+				});
 
 				events = Array.isArray(response) ? response : [response];
 
 				// Filter by creation time (if createdAt is available)
-				events = events.filter(event => {
+				events = events.filter((event) => {
 					if (event.createdAt) {
-						const createdAt = typeof event.createdAt === 'number' ? event.createdAt : 
-										 Math.floor(new Date(event.createdAt).getTime() / 1000);
+						const createdAt =
+							typeof event.createdAt === 'number'
+								? event.createdAt
+								: Math.floor(new Date(event.createdAt).getTime() / 1000);
 						return createdAt > sinceTimestamp;
 					}
 					return true; // Include if no timestamp available
 				});
-
 			} else if (triggerOn === 'profile') {
 				// Poll profiles API for new profiles
 				const queryParams: Record<string, any> = {
@@ -299,23 +282,21 @@ export class OneTapTrigger implements INodeType {
 					sortOrder: 'desc',
 				};
 
-				const response = await this.helpers.httpRequestWithAuthentication.call(
-					this,
-					'onetap',
-					{
-						method: 'GET',
-						url: `${baseURL}/api/profiles`,
-						qs: queryParams,
-					},
-				);
+				const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetap', {
+					method: 'GET',
+					url: `${baseURL}/api/profiles`,
+					qs: queryParams,
+				});
 
 				events = Array.isArray(response.data) ? response.data : [response.data || response];
 
 				// Filter by creation time (if createdAt is available)
-				events = events.filter(event => {
+				events = events.filter((event) => {
 					if (event.createdAt) {
-						const createdAt = typeof event.createdAt === 'number' ? event.createdAt : 
-										 Math.floor(new Date(event.createdAt).getTime() / 1000);
+						const createdAt =
+							typeof event.createdAt === 'number'
+								? event.createdAt
+								: Math.floor(new Date(event.createdAt).getTime() / 1000);
 						return createdAt > sinceTimestamp;
 					}
 					return true; // Include if no timestamp available
@@ -324,11 +305,10 @@ export class OneTapTrigger implements INodeType {
 
 			// Apply source filter if specified
 			if (additionalFilters.source) {
-				events = events.filter(event => 
-					event.source && event.source.includes(additionalFilters.source)
+				events = events.filter(
+					(event) => event.source && event.source.includes(additionalFilters.source),
 				);
 			}
-
 		} catch (error) {
 			// If there's an error, return empty array to avoid stopping the workflow
 			// Error is silently handled to prevent workflow interruption
@@ -336,7 +316,7 @@ export class OneTapTrigger implements INodeType {
 		}
 
 		// Convert events to node execution data
-		const returnData: INodeExecutionData[] = events.map(event => ({
+		const returnData: INodeExecutionData[] = events.map((event) => ({
 			json: {
 				...event,
 				triggerType: triggerOn,
@@ -364,7 +344,7 @@ export class OneTapTrigger implements INodeType {
 
 		// Filter webhook events based on trigger configuration
 		const webhookData = body as any;
-		
+
 		// Add metadata to the webhook data
 		const eventData = {
 			...webhookData,
@@ -399,7 +379,11 @@ export class OneTapTrigger implements INodeType {
 		}
 
 		// Filter by source
-		if (additionalFilters.source && webhookData.source && !webhookData.source.includes(additionalFilters.source)) {
+		if (
+			additionalFilters.source &&
+			webhookData.source &&
+			!webhookData.source.includes(additionalFilters.source)
+		) {
 			return { noWebhookResponse: true };
 		}
 
@@ -437,4 +421,4 @@ export class OneTapTrigger implements INodeType {
 			};
 		}
 	}
-} 
+}
