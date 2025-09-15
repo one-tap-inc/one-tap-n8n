@@ -11,7 +11,7 @@ import type {
 
 import { NodeConnectionType } from 'n8n-workflow';
 
-export class OneTapTrigger implements INodeType {
+export class OnetapTrigger implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'OneTap Trigger',
 		name: 'onetapTrigger',

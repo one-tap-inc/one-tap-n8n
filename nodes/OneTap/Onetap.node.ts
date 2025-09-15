@@ -6,7 +6,7 @@ import type {
 } from 'n8n-workflow';
 import { NodeConnectionType, NodeOperationError } from 'n8n-workflow';
 
-export class OneTap implements INodeType {
+export class Onetap implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'OneTap',
 		name: 'onetap',
