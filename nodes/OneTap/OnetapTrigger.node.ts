@@ -51,11 +51,6 @@ export class OneTapTrigger implements INodeType {
 						value: 'production',
 						description: 'Use production OneTap API server',
 					},
-					{
-						name: 'Staging',
-						value: 'staging',
-						description: 'Use staging/development OneTap API server',
-					},
 				],
 				default: 'production',
 				description: 'Select which OneTap environment to use',
@@ -198,9 +193,7 @@ export class OneTapTrigger implements INodeType {
 
 		// Get environment and set base URL accordingly
 		const environment = this.getNodeParameter('environment') as string;
-		const baseURL = environment === 'staging' 
-			? 'http://localhost:1337' 
-			: 'https://api-beta.onetapcheckin.com';
+		const baseURL = 'https://api-beta.onetapcheckin.com';
 
 		const now = Math.floor(Date.now() / 1000);
 		const pollInterval = this.getNodeParameter('pollInterval') as number;
@@ -246,13 +239,13 @@ export class OneTapTrigger implements INodeType {
 				// Apply additional filters
 				if (additionalFilters.method && additionalFilters.method.length > 0) {
 					const methodField = triggerOn === 'checkin' ? 'checkInMethod' : 'checkOutMethod';
-					events = events.filter(event => 
+					events = events.filter(event =>
 						additionalFilters.method.includes(event[methodField])
 					);
 				}
 
 				if (additionalFilters.source) {
-					events = events.filter(event => 
+					events = events.filter(event =>
 						event.source && event.source.includes(additionalFilters.source)
 					);
 				}
@@ -283,7 +276,7 @@ export class OneTapTrigger implements INodeType {
 				// Filter by creation time (if createdAt is available)
 				events = events.filter(event => {
 					if (event.createdAt) {
-						const createdAt = typeof event.createdAt === 'number' ? event.createdAt : 
+						const createdAt = typeof event.createdAt === 'number' ? event.createdAt :
 										 Math.floor(new Date(event.createdAt).getTime() / 1000);
 						return createdAt > sinceTimestamp;
 					}
@@ -314,7 +307,7 @@ export class OneTapTrigger implements INodeType {
 				// Filter by creation time (if createdAt is available)
 				events = events.filter(event => {
 					if (event.createdAt) {
-						const createdAt = typeof event.createdAt === 'number' ? event.createdAt : 
+						const createdAt = typeof event.createdAt === 'number' ? event.createdAt :
 										 Math.floor(new Date(event.createdAt).getTime() / 1000);
 						return createdAt > sinceTimestamp;
 					}
@@ -324,7 +317,7 @@ export class OneTapTrigger implements INodeType {
 
 			// Apply source filter if specified
 			if (additionalFilters.source) {
-				events = events.filter(event => 
+				events = events.filter(event =>
 					event.source && event.source.includes(additionalFilters.source)
 				);
 			}
@@ -364,7 +357,7 @@ export class OneTapTrigger implements INodeType {
 
 		// Filter webhook events based on trigger configuration
 		const webhookData = body as any;
-		
+
 		// Add metadata to the webhook data
 		const eventData = {
 			...webhookData,
@@ -437,4 +430,4 @@ export class OneTapTrigger implements INodeType {
 			};
 		}
 	}
-} 
+}
