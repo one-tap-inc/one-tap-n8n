@@ -1,58 +1,57 @@
 {
-  "name": "n8n-nodes-onetap",
-  "version": "0.8.0",
-  "description": "n8n nodes for onetap (onetapcheckin.com)",
-  "keywords": [
-    "n8n",
-    "onetapcheckin",
-    "n8n-community-node-package",
-    "n8n-nodes-onetap"
-  ],
-  "license": "MIT",
-  "homepage": "",
-  "author": {
-    "name": "OneTap",
-    "email": "hello@onetapcheckin.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/one-tap-inc/one-tap-n8n"
-  },
-  "engines": {
-    "node": ">=20.15"
-  },
-  "main": "index.js",
-  "scripts": {
-    "build": "npx rimraf dist && tsc && gulp build:icons",
-    "dev": "tsc --watch",
-    "format": "prettier nodes credentials --write",
-    "lint": "eslint nodes credentials package.json",
-    "lintfix": "eslint nodes credentials package.json --fix",
-    "prepublishOnly": "npm run build && npm run lint"
-  },
-  "files": [
-    "dist/**/*"
-  ],
-  "n8n": {
-    "n8nNodesApiVersion": 1,
-    "credentials": [
-      "dist/credentials/OneTap.credentials.js"
-    ],
-    "nodes": [
-      "dist/nodes/OneTap/OneTap.node.js",
-      "dist/nodes/OneTap/OneTapTrigger.node.js",
-      "dist/nodes/OneTap/OneTapWebhookManager.node.js"
-    ]
-  },
-  "devDependencies": {
-    "@typescript-eslint/parser": "~8.32.0",
-    "eslint": "^8.57.0",
-    "eslint-plugin-n8n-nodes-base": "^1.16.3",
-    "gulp": "^5.0.0",
-    "prettier": "^3.5.3",
-    "typescript": "^5.8.2"
-  },
-  "peerDependencies": {
-    "n8n-workflow": "*"
-  }
+	"name": "n8n-nodes-onetap",
+	"version": "0.8.0",
+	"description": "n8n nodes for onetap (onetapcheckin.com)",
+	"keywords": [
+		"n8n",
+		"onetapcheckin",
+		"n8n-community-node-package",
+		"n8n-nodes-onetap"
+	],
+	"license": "MIT",
+	"homepage": "",
+	"author": {
+		"name": "OneTap",
+		"email": "hello@onetapcheckin.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/one-tap-inc/one-tap-n8n"
+	},
+	"engines": {
+		"node": ">=20.15"
+	},
+	"main": "index.js",
+	"scripts": {
+		"build": "n8n-node build",
+		"build:watch": "tsc --watch",
+		"dev": "n8n-node dev",
+		"format": "prettier nodes credentials --write",
+		"lint": "n8n-node lint",
+		"lint:fix": "n8n-node lint --fix",
+		"release": "n8n-node release",
+		"prepublishOnly": "n8n-node prerelease"
+	},
+	"files": [
+		"dist/**/*"
+	],
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"credentials": [
+			"dist/credentials/OneTapApi.credentials.js"
+		],
+		"nodes": [
+			"dist/nodes/OneTap/Onetap.node.js"
+		]
+	},
+	"devDependencies": {
+		"@n8n/node-cli": "0.36.1",
+		"eslint": "9.29.0",
+		"prettier": "^3.8.3",
+		"release-it": "^20.2.0",
+		"typescript": "^5.9.3"
+	},
+	"peerDependencies": {
+		"n8n-workflow": "*"
+	}
 }

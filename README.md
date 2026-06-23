@@ -111,23 +111,10 @@ More comprehensive documentation on the OneTap public API, including detailed en
 
 ## Available Nodes
 
-This package includes three specialized nodes:
+This package includes a single node:
 
-### 1. OneTap Node
-The main node for all OneTap operations across 5 resources:
-
-### 2. OneTap Trigger Node
-Listen for OneTap events in real-time:
-- **Webhook Support**: Direct webhook integration
-- **Polling Support**: Regular API polling for events
-- **Event Types**: Check-ins, check-outs, new participants, profile changes
-- **Environment Selection**: Production or staging environments
-
-### 3. OneTap Webhook Manager Node
-Register and manage webhooks:
-- **Webhook Registration**: Register new webhooks with OneTap
-- **Event Subscription**: Subscribe to specific events or all events
-- **Webhook Management**: List, update, and unregister webhooks
+### OneTap Node
+The main node for all OneTap operations across 5 resources (Profile, Participant, List, Passport, Punch Pass).
 
 ## Supported Resources & Operations
 
@@ -527,7 +514,7 @@ If you want to manually install the node without using the community nodes insta
 
 ## Version
 
-Current version: **0.2.2**
+Current version: **0.8.0**
 
 ## License
 
