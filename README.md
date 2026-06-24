@@ -293,7 +293,7 @@ The node supports dynamic custom fields for profiles:
 
 ### Environment Configuration
 Select between production and staging environments:
-- **Production**: `https://api-beta.onetapcheckin.com`
+- **Production**: `https://api.onetapcheckin.com`
 - **Staging**: For development and testing
 
 ### Pagination & Filtering
@@ -509,7 +509,7 @@ If you want to manually install the node without using the community nodes insta
 
 ## API Endpoints
 
-- **Production**: `https://api-beta.onetapcheckin.com`
+- **Production**: `https://api.onetapcheckin.com`
 - **Staging**: Available for development/testing
 
 ## Version

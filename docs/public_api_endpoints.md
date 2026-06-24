@@ -1,6 +1,6 @@
 # OneTap API Endpoints Documentation
 
-Base URL: `https://api-beta.onetapcheckin.com`
+Base URL: `https://api.onetapcheckin.com`
 
 Authentication: Required via OneTap credentials
 

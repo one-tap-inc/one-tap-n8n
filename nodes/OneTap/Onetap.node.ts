@@ -8,6 +8,8 @@ import type {
 } from 'n8n-workflow';
 import { NodeApiError, NodeConnectionTypes, NodeOperationError } from 'n8n-workflow';
 
+const BASE_URL = 'https://api.onetapcheckin.com';
+
 export class Onetap implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'OneTap',
@@ -30,7 +32,7 @@ export class Onetap implements INodeType {
 			},
 		],
 		requestDefaults: {
-			baseURL: 'https://api-beta.onetapcheckin.com',
+			baseURL: BASE_URL,
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
@@ -2746,7 +2748,7 @@ export class Onetap implements INodeType {
 									'onetapApi',
 									{
 										method: 'GET',
-										url: 'https://api-beta.onetapcheckin.com/api/profiles',
+										url: `${BASE_URL}/api/profiles`,
 										qs: queryParams,
 									},
 								);
@@ -2794,7 +2796,7 @@ export class Onetap implements INodeType {
 								'onetapApi',
 								{
 									method: 'GET',
-									url: 'https://api-beta.onetapcheckin.com/api/profiles',
+									url: `${BASE_URL}/api/profiles`,
 									qs: queryParams,
 								},
 							);
@@ -2876,7 +2878,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'PUT',
-							url: `https://api-beta.onetapcheckin.com/api/profiles/${profileId}`,
+							url: `${BASE_URL}/api/profiles/${profileId}`,
 							body,
 						});
 
@@ -2896,7 +2898,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'GET',
-							url: `https://api-beta.onetapcheckin.com/api/profiles/${profileId}`,
+							url: `${BASE_URL}/api/profiles/${profileId}`,
 						});
 
 						returnData.push({
@@ -2964,7 +2966,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'POST',
-							url: 'https://api-beta.onetapcheckin.com/api/profiles',
+							url: `${BASE_URL}/api/profiles`,
 							body,
 						});
 
@@ -2977,7 +2979,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'DELETE',
-							url: `https://api-beta.onetapcheckin.com/api/profiles/${profileId}`,
+							url: `${BASE_URL}/api/profiles/${profileId}`,
 						});
 
 						returnData.push({
@@ -2993,7 +2995,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'DELETE',
-							url: 'https://api-beta.onetapcheckin.com/api/profiles',
+							url: `${BASE_URL}/api/profiles`,
 							body,
 						});
 
@@ -3009,7 +3011,7 @@ export class Onetap implements INodeType {
 						// multipart/form-data file uploads properly with the actual file content
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'PUT',
-							url: `https://api-beta.onetapcheckin.com/api/profiles/${profileId}/avatar`,
+							url: `${BASE_URL}/api/profiles/${profileId}/avatar`,
 							headers: {
 								'Content-Type': 'multipart/form-data',
 							},
@@ -3025,7 +3027,7 @@ export class Onetap implements INodeType {
 					} else if (operation === 'getCustomFields') {
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'GET',
-							url: 'https://api-beta.onetapcheckin.com/api/profiles/customFields',
+							url: `${BASE_URL}/api/profiles/customFields`,
 						});
 
 						returnData.push({
@@ -3037,7 +3039,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'GET',
-							url: 'https://api-beta.onetapcheckin.com/api/profiles/checkInCode',
+							url: `${BASE_URL}/api/profiles/checkInCode`,
 							qs: {
 								checkInCode: checkInCode,
 							},
@@ -3071,7 +3073,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'GET',
-							url: 'https://api-beta.onetapcheckin.com/api/passports',
+							url: `${BASE_URL}/api/passports`,
 							qs: queryParams,
 						});
 
@@ -3093,7 +3095,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'GET',
-							url: `https://api-beta.onetapcheckin.com/api/passports/participants/${participantId}`,
+							url: `${BASE_URL}/api/passports/participants/${participantId}`,
 						});
 
 						returnData.push({
@@ -3109,7 +3111,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'GET',
-							url: `https://api-beta.onetapcheckin.com/api/passports/profiles/${profileId}`,
+							url: `${BASE_URL}/api/passports/profiles/${profileId}`,
 							qs: queryParams,
 						});
 
@@ -3125,7 +3127,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'GET',
-							url: 'https://api-beta.onetapcheckin.com/api/passports/groups',
+							url: `${BASE_URL}/api/passports/groups`,
 							qs: queryParams,
 						});
 
@@ -3147,7 +3149,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'DELETE',
-							url: `https://api-beta.onetapcheckin.com/api/passports/${passportId}`,
+							url: `${BASE_URL}/api/passports/${passportId}`,
 						});
 
 						returnData.push({
@@ -3166,7 +3168,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'POST',
-							url: `https://api-beta.onetapcheckin.com/api/passports/${passportId}/send`,
+							url: `${BASE_URL}/api/passports/${passportId}/send`,
 							body,
 						});
 
@@ -3243,7 +3245,7 @@ export class Onetap implements INodeType {
 									'onetapApi',
 									{
 										method: 'GET',
-										url: 'https://api-beta.onetapcheckin.com/api/passports/punch-passports',
+										url: `${BASE_URL}/api/passports/punch-passports`,
 										qs: queryParams,
 									},
 								);
@@ -3324,7 +3326,7 @@ export class Onetap implements INodeType {
 								'onetapApi',
 								{
 									method: 'GET',
-									url: 'https://api-beta.onetapcheckin.com/api/passports/punch-passports',
+									url: `${BASE_URL}/api/passports/punch-passports`,
 									qs: queryParams,
 								},
 							);
@@ -3400,7 +3402,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'GET',
-							url: `https://api-beta.onetapcheckin.com/api/passports/punch-passports/${passportId}`,
+							url: `${BASE_URL}/api/passports/punch-passports/${passportId}`,
 							qs: queryParams,
 						});
 
@@ -3439,7 +3441,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'POST',
-							url: 'https://api-beta.onetapcheckin.com/api/passports/punch-passports',
+							url: `${BASE_URL}/api/passports/punch-passports`,
 							body,
 						});
 
@@ -3466,7 +3468,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'PUT',
-							url: `https://api-beta.onetapcheckin.com/api/passports/punch-passports/${passportId}`,
+							url: `${BASE_URL}/api/passports/punch-passports/${passportId}`,
 							body,
 						});
 
@@ -3484,7 +3486,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'POST',
-							url: `https://api-beta.onetapcheckin.com/api/passports/punch-passports/${passportId}/redeem`,
+							url: `${BASE_URL}/api/passports/punch-passports/${passportId}/redeem`,
 							body,
 						});
 
@@ -3529,7 +3531,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'POST',
-							url: 'https://api-beta.onetapcheckin.com/api/participants',
+							url: `${BASE_URL}/api/participants`,
 							body,
 						});
 
@@ -3542,7 +3544,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'GET',
-							url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}`,
+							url: `${BASE_URL}/api/participants/${participantId}`,
 						});
 
 						returnData.push({
@@ -3572,7 +3574,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'PUT',
-							url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}`,
+							url: `${BASE_URL}/api/participants/${participantId}`,
 							body,
 						});
 
@@ -3615,7 +3617,7 @@ export class Onetap implements INodeType {
 									'onetapApi',
 									{
 										method: 'GET',
-										url: 'https://api-beta.onetapcheckin.com/api/participants',
+										url: `${BASE_URL}/api/participants`,
 										qs: queryParams,
 									},
 								);
@@ -3661,7 +3663,7 @@ export class Onetap implements INodeType {
 								'onetapApi',
 								{
 									method: 'GET',
-									url: 'https://api-beta.onetapcheckin.com/api/participants',
+									url: `${BASE_URL}/api/participants`,
 									qs: queryParams,
 								},
 							);
@@ -3683,7 +3685,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'DELETE',
-							url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}`,
+							url: `${BASE_URL}/api/participants/${participantId}`,
 							qs: queryParams,
 						});
 
@@ -3712,7 +3714,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'POST',
-							url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}/checkin`,
+							url: `${BASE_URL}/api/participants/${participantId}/checkin`,
 							body,
 						});
 
@@ -3741,7 +3743,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'POST',
-							url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}/checkout`,
+							url: `${BASE_URL}/api/participants/${participantId}/checkout`,
 							body,
 						});
 
@@ -3754,7 +3756,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'POST',
-							url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}/undoCheckin`,
+							url: `${BASE_URL}/api/participants/${participantId}/undoCheckin`,
 						});
 
 						returnData.push({
@@ -3766,7 +3768,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'POST',
-							url: `https://api-beta.onetapcheckin.com/api/participants/${participantId}/undoCheckout`,
+							url: `${BASE_URL}/api/participants/${participantId}/undoCheckout`,
 						});
 
 						returnData.push({
@@ -3801,7 +3803,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'POST',
-							url: 'https://api-beta.onetapcheckin.com/api/lists',
+							url: `${BASE_URL}/api/lists`,
 							body,
 						});
 
@@ -3844,7 +3846,7 @@ export class Onetap implements INodeType {
 									'onetapApi',
 									{
 										method: 'GET',
-										url: 'https://api-beta.onetapcheckin.com/api/lists',
+										url: `${BASE_URL}/api/lists`,
 										qs: queryParams,
 									},
 								);
@@ -3890,7 +3892,7 @@ export class Onetap implements INodeType {
 								'onetapApi',
 								{
 									method: 'GET',
-									url: 'https://api-beta.onetapcheckin.com/api/lists',
+									url: `${BASE_URL}/api/lists`,
 									qs: queryParams,
 								},
 							);
@@ -3908,7 +3910,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'GET',
-							url: `https://api-beta.onetapcheckin.com/api/lists/${listId}`,
+							url: `${BASE_URL}/api/lists/${listId}`,
 						});
 
 						returnData.push({
@@ -3936,7 +3938,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'PUT',
-							url: `https://api-beta.onetapcheckin.com/api/lists/${listId}`,
+							url: `${BASE_URL}/api/lists/${listId}`,
 							body,
 						});
 
@@ -3949,7 +3951,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'DELETE',
-							url: `https://api-beta.onetapcheckin.com/api/lists/${listId}`,
+							url: `${BASE_URL}/api/lists/${listId}`,
 						});
 
 						returnData.push({
@@ -3971,7 +3973,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'DELETE',
-							url: 'https://api-beta.onetapcheckin.com/api/lists',
+							url: `${BASE_URL}/api/lists`,
 							body,
 						});
 
@@ -3995,7 +3997,7 @@ export class Onetap implements INodeType {
 
 						const response = await this.helpers.httpRequestWithAuthentication.call(this, 'onetapApi', {
 							method: 'GET',
-							url: `https://api-beta.onetapcheckin.com/api/lists/${listId}/survey`,
+							url: `${BASE_URL}/api/lists/${listId}/survey`,
 							qs: queryParams,
 						});
 
