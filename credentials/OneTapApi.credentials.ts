@@ -5,9 +5,11 @@ import {
 	INodeProperties,
 } from 'n8n-workflow';
 
-export class OneTap implements ICredentialType {
-	name = 'onetap';
+export class OneTapApi implements ICredentialType {
+	name = 'onetapApi';
 	displayName = 'OneTap API';
+
+	icon = 'file:onetap.svg' as const;
 
 	documentationUrl = 'https://apidocs.onetapcheckin.io';
 
@@ -40,7 +42,7 @@ export class OneTap implements ICredentialType {
 	// The block below tells how this credential can be tested
 	test: ICredentialTestRequest = {
 		request: {
-			baseURL: 'https://api-beta.onetapcheckin.com',
+			baseURL: 'https://api.onetapcheckin.com',
 			url: '/api/public/me',
 		},
 	};

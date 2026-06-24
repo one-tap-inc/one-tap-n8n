@@ -26,7 +26,7 @@
       "id": "2543ff8f-1042-48cd-9198-abe8cf82aa58",
       "name": "get_profiles",
       "credentials": {
-        "onetap": {
+        "onetapApi": {
           "id": "",
           "name": "onetap account"
         }
@@ -61,7 +61,7 @@
       "id": "c96f8fcd-10d6-4819-a5e2-045a03e21c03",
       "name": "get_check_ins",
       "credentials": {
-        "onetap": {
+        "onetapApi": {
           "id": "",
           "name": "onetap account"
         }
