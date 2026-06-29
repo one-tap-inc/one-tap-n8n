@@ -31,13 +31,6 @@ export class Onetap implements INodeType {
 				required: true,
 			},
 		],
-		requestDefaults: {
-			baseURL: BASE_URL,
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-		},
 		properties: [
 			{
 				displayName: 'Resource',
@@ -114,12 +107,6 @@ export class Onetap implements INodeType {
 						value: 'getAll',
 						description: 'Fetch many profiles',
 						action: 'Get many profiles',
-						routing: {
-							request: {
-								method: 'GET',
-								url: '/api/profiles',
-							},
-						},
 					},
 					{
 						name: 'Get Single',
@@ -171,12 +158,6 @@ export class Onetap implements INodeType {
 						returnAll: [false],
 					},
 				},
-				routing: {
-					send: {
-						type: 'query',
-						property: 'page',
-					},
-				},
 			},
 			{
 				displayName: 'Page Size',
@@ -193,12 +174,6 @@ export class Onetap implements INodeType {
 						resource: ['profile'],
 						operation: ['getAll'],
 						returnAll: [false],
-					},
-				},
-				routing: {
-					send: {
-						type: 'query',
-						property: 'pageSize',
 					},
 				},
 			},
@@ -222,12 +197,6 @@ export class Onetap implements INodeType {
 						default: '',
 						description: 'Search by name, email, or phone number',
 						placeholder: 'john',
-						routing: {
-							send: {
-								type: 'query',
-								property: 'search',
-							},
-						},
 					},
 					{
 						displayName: 'Sort By',
@@ -249,12 +218,6 @@ export class Onetap implements INodeType {
 								value: 'createdAt',
 							},
 						],
-						routing: {
-							send: {
-								type: 'query',
-								property: 'sortBy',
-							},
-						},
 					},
 					{
 						displayName: 'Sort Order',
@@ -272,12 +235,6 @@ export class Onetap implements INodeType {
 								value: 'desc',
 							},
 						],
-						routing: {
-							send: {
-								type: 'query',
-								property: 'sortOrder',
-							},
-						},
 					},
 					{
 						displayName: 'Favorite',
@@ -285,12 +242,6 @@ export class Onetap implements INodeType {
 						type: 'boolean',
 						default: false,
 						description: 'Whether to filter by favorite status',
-						routing: {
-							send: {
-								type: 'query',
-								property: 'favorite',
-							},
-						},
 					},
 				],
 			},
